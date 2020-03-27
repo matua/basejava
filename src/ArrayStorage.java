@@ -13,13 +13,17 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length - 1; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
+        boolean duplicate = false;
+        for (Resume resume : getAll()) {
+            if (resume.toString().equals(r.toString())) {
+                System.out.println("Such uuid already exists");
+                duplicate = true;
             }
         }
-        size++;
+        if (!duplicate) {
+            storage[size] = r;
+            size++;
+        }
     }
 
     Resume get(String uuid) {
@@ -32,18 +36,20 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int count = 0;
-        for (Resume resume : storage) {
-            if (resume.toString().equals(uuid)) {
-                resume = null;
+        boolean notFound = true;
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(uuid)) {
+                storage[i] = null;
+                for (int j = i; j < storage.length - 1; j++) {
+                    storage[j] = storage[j + 1];
+                }
+                notFound = false;
+                size--;
                 break;
             }
-            count++;
         }
-
-        if (storage.length - 1 - count >= 0)
-            System.arraycopy(storage, count + 1, storage, count, storage.length - 1 - count);
-        size--;
+        if (notFound)
+            System.out.println("No such uuid");
     }
 
     /**
@@ -57,13 +63,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        int count = 0;
-        for (Resume resume : storage) {
-            if (resume == null) {
-                break;
-            }
-            count++;
-        }
-        return count;
+        return size;
     }
 }
