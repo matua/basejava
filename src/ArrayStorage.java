@@ -14,8 +14,8 @@ public class ArrayStorage {
 
     void save(Resume r) {
         boolean duplicate = false;
-        for (Resume resume : getAll()) {
-            if (resume.toString().equals(r.toString())) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(r.toString())) {
                 System.out.println("Such uuid already exists");
                 duplicate = true;
             }
@@ -39,8 +39,7 @@ public class ArrayStorage {
         boolean notFound = true;
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
-                storage[i] = null;
-                for (int j = i; j < storage.length - 1; j++) {
+                for (int j = i; j < size - 1; j++) {
                     storage[j] = storage[j + 1];
                 }
                 notFound = false;
