@@ -2,17 +2,17 @@ package com.matuageorge.webapp.storage;
 
 import com.matuageorge.webapp.model.Resume;
 
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
     private int size;
 
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -65,9 +65,9 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] resumes = new Resume[size];
+        Resume[] resumes;
 
-        System.arraycopy(storage, 0, resumes, 0, size);
+        resumes = Arrays.copyOfRange(storage, 0, size);
         return resumes;
     }
 
@@ -78,22 +78,22 @@ public class ArrayStorage {
     public int searchByObject(Resume r) {
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(r.toString())) {
-                System.out.println("uuid exists");
+                System.out.println("Search done. uuid exists");
                 return i;
             }
         }
-        System.out.println("No such uuid");
+        System.out.println("Search done. No such uuid");
         return -1;
     }
 
     public int searchByUUID(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
-                System.out.println("uuid exists");
+                System.out.println("Search done. uuid exists");
                 return i;
             }
         }
-        System.out.println("No such uuid");
+        System.out.println("Search done. No such uuid");
         return -1;
     }
 }
