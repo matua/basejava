@@ -52,8 +52,8 @@ public class ArrayStorage {
         if (index != -1) {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
+            size--;
         }
-        size--;
     }
 
     /**
@@ -67,7 +67,7 @@ public class ArrayStorage {
         return size;
     }
 
-    public int search(String uuid) {
+    private int search(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 System.out.format("Search done. uuid %s exists", storage[i].getUuid());

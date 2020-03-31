@@ -1,3 +1,5 @@
+package com.matuageorge.webapp;
+
 import com.matuageorge.webapp.model.Resume;
 import com.matuageorge.webapp.storage.ArrayStorage;
 
