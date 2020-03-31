@@ -16,46 +16,41 @@ public class ArrayStorage {
         size = 0;
     }
 
-    public void save(Resume r) {
-        int found = searchByObject(r);
+    public void save(Resume resume) {
+        int index = search(resume.getUuid());
 
-        if (found == -1) {
+        if (index == -1) {
             if (size == storage.length) {
                 System.out.println("The storage is full. Cannot complete the operation.");
             } else {
-                storage[size] = r;
+                storage[size] = resume;
                 size++;
             }
         }
     }
 
-    public void update(Resume r, Resume z) {
-        int foundOld = searchByObject(r);
-        int foundNew = searchByObject(z);
+    public void update(Resume resume) {
+        int index = search(resume.getUuid());
 
-        if (foundOld != -1) {
-            if (foundNew == -1) {
-                storage[foundOld] = z;
-            }
+        if (index != -1) {
+            storage[index] = resume;
         }
     }
 
     public Resume get(String uuid) {
-        int found = searchByUUID(uuid);
+        int index = search(uuid);
 
-        if (found != -1) {
-            return storage[found];
-        } else {
-            return null;
+        if (index != -1) {
+            return storage[index];
         }
+        return null;
     }
 
     public void delete(String uuid) {
-        int found = searchByUUID(uuid);
-        ;
+        int index = search(uuid);
 
-        if (found != -1) {
-            storage[found] = storage[size - 1];
+        if (index != -1) {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
         }
         size--;
@@ -65,31 +60,17 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] resumes;
-
-        resumes = Arrays.copyOfRange(storage, 0, size);
-        return resumes;
+        return Arrays.copyOf(storage, size);
     }
 
     public int size() {
         return size;
     }
 
-    public int searchByObject(Resume r) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(r.toString())) {
-                System.out.println("Search done. uuid exists");
-                return i;
-            }
-        }
-        System.out.println("Search done. No such uuid");
-        return -1;
-    }
-
-    public int searchByUUID(String uuid) {
+    public int search(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
-                System.out.println("Search done. uuid exists");
+                System.out.format("Search done. uuid %s exists", storage[i].getUuid());
                 return i;
             }
         }
