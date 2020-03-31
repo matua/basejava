@@ -17,29 +17,33 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        boolean duplicate = false;
+        boolean notFound = true;
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(r.toString())) {
                 System.out.println("Such uuid already exists");
-                duplicate = true;
+                notFound = false;
             }
         }
-        if (!duplicate) {
-            storage[size] = r;
-            size++;
+        if (notFound) {
+            if (size == storage.length) {
+                System.out.println("The storage is full. Cannot complete the operation.");
+            } else {
+                storage[size] = r;
+                size++;
+            }
         }
     }
 
     public void update(Resume r, Resume z) {
-        boolean notFound = true;
+        boolean found = false;
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(r.toString())) {
                 storage[i] = z;
-                notFound = false;
+                found = true;
                 break;
             }
         }
-        if (notFound)
+        if (!found)
             System.out.println("No such uuid");
     }
 
@@ -49,22 +53,23 @@ public class ArrayStorage {
                 return storage[i];
             }
         }
+        System.out.println("No such uuid");
         return null;
     }
 
     public void delete(String uuid) {
-        boolean notFound = true;
+        boolean found = true;
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 for (int j = i; j < size - 1; j++) {
                     storage[j] = storage[j + 1];
                 }
-                notFound = false;
+                found = false;
                 size--;
                 break;
             }
         }
-        if (notFound)
+        if (!found)
             System.out.println("No such uuid");
     }
 
