@@ -17,14 +17,9 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        boolean notFound = true;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(r.toString())) {
-                System.out.println("Such uuid already exists");
-                notFound = false;
-            }
-        }
-        if (notFound) {
+        int found = searchByObject(r);
+
+        if (found == -1) {
             if (size == storage.length) {
                 System.out.println("The storage is full. Cannot complete the operation.");
             } else {
@@ -35,42 +30,35 @@ public class ArrayStorage {
     }
 
     public void update(Resume r, Resume z) {
-        boolean found = false;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(r.toString())) {
-                storage[i] = z;
-                found = true;
-                break;
+        int foundOld = searchByObject(r);
+        int foundNew = searchByObject(z);
+
+        if (foundOld != -1) {
+            if (foundNew == -1) {
+                storage[foundOld] = z;
             }
         }
-        if (!found)
-            System.out.println("No such uuid");
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                return storage[i];
-            }
+        int found = searchByUUID(uuid);
+
+        if (found != -1) {
+            return storage[found];
+        } else {
+            return null;
         }
-        System.out.println("No such uuid");
-        return null;
     }
 
     public void delete(String uuid) {
-        boolean found = true;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                for (int j = i; j < size - 1; j++) {
-                    storage[j] = storage[j + 1];
-                }
-                found = false;
-                size--;
-                break;
-            }
+        int found = searchByUUID(uuid);
+        ;
+
+        if (found != -1) {
+            storage[found] = storage[size - 1];
+            storage[size - 1] = null;
         }
-        if (!found)
-            System.out.println("No such uuid");
+        size--;
     }
 
     /**
@@ -85,5 +73,27 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    public int searchByObject(Resume r) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(r.toString())) {
+                System.out.println("uuid exists");
+                return i;
+            }
+        }
+        System.out.println("No such uuid");
+        return -1;
+    }
+
+    public int searchByUUID(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(uuid)) {
+                System.out.println("uuid exists");
+                return i;
+            }
+        }
+        System.out.println("No such uuid");
+        return -1;
     }
 }
