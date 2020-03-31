@@ -30,6 +30,19 @@ public class ArrayStorage {
         }
     }
 
+    public void update(Resume r, Resume z) {
+        boolean notFound = true;
+        for (int i = 0; i < size; i++) {
+            if (storage[i].toString().equals(r.toString())) {
+                storage[i] = z;
+                notFound = false;
+                break;
+            }
+        }
+        if (notFound)
+            System.out.println("No such uuid");
+    }
+
     public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
