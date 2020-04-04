@@ -21,7 +21,7 @@ public class ArrayStorage {
         int index = search(resume.getUuid());
 
         if (index == -1) {
-            if (size == storage.length) {
+            if (size == STORAGE_LIMIT) {
                 System.out.println("The storage is full. Cannot complete the operation.");
             } else {
                 storage[size] = resume;
