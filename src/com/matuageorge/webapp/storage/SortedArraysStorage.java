@@ -4,7 +4,7 @@ import com.matuageorge.webapp.model.Resume;
 
 public class SortedArraysStorage extends AbstractArrayStorage {
     @Override
-    protected int search(String uuid) {
+    protected int getIndex(String uuid) {
         return 0;
     }
 

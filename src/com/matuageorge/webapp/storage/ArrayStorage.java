@@ -15,7 +15,7 @@ public class ArrayStorage extends AbstractArrayStorage{
     }
 
     public void save(Resume resume) {
-        int index = search(resume.getUuid());
+        int index = getIndex(resume.getUuid());
 
         if (index == -1) {
             if (size == STORAGE_LIMIT) {
@@ -28,7 +28,7 @@ public class ArrayStorage extends AbstractArrayStorage{
     }
 
     public void update(Resume resume) {
-        int index = search(resume.getUuid());
+        int index = getIndex(resume.getUuid());
 
         if (index != -1) {
             storage[index] = resume;
@@ -36,7 +36,7 @@ public class ArrayStorage extends AbstractArrayStorage{
     }
 
     public Resume get(String uuid) {
-        int index = search(uuid);
+        int index = getIndex(uuid);
 
         if (index != -1) {
             return storage[index];
@@ -45,7 +45,7 @@ public class ArrayStorage extends AbstractArrayStorage{
     }
 
     public void delete(String uuid) {
-        int index = search(uuid);
+        int index = getIndex(uuid);
 
         if (index != -1) {
             storage[index] = storage[size - 1];
@@ -65,7 +65,7 @@ public class ArrayStorage extends AbstractArrayStorage{
         return size;
     }
 
-    protected int search(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 System.out.format("Search done. uuid %s exists", storage[i].getUuid());

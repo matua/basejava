@@ -13,7 +13,7 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public Resume get(String uuid) {
-        int index = search(uuid);
+        int index = getIndex(uuid);
 
         if (index != -1) {
             return storage[index];
@@ -21,5 +21,5 @@ public abstract class AbstractArrayStorage implements Storage {
         return null;
     }
 
-    protected abstract int search(String uuid);
+    protected abstract int getIndex(String uuid);
 }
