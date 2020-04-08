@@ -20,7 +20,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(resume.getUuid());
 
         if (index >= 0) {
-            insertResume(resume, index);
+            storage[index] = resume;
         }
     }
 
