@@ -21,7 +21,6 @@ public abstract class AbstractArrayStorage implements Storage {
 
         if (index >= 0) {
             insertResume(resume, index);
-//            storage[index] = resume;
         }
     }
 
