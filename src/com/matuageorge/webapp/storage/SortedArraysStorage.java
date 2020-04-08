@@ -28,8 +28,13 @@ public class SortedArraysStorage extends AbstractArrayStorage {
 
     @Override
     protected void insertResume(Resume resume, int index) {
-        int insert = -index - 1;
-        System.arraycopy(storage, insert, storage, insert + 1, size - insert);
-        storage[insert] = resume;
+        int insertionPoint;
+        if (index >= 0) {
+            insertionPoint = index;
+        } else {
+            insertionPoint = -index - 1;
+            System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);
+        }
+        storage[insertionPoint] = resume;
     }
 }
