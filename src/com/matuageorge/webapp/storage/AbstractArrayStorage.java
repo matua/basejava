@@ -1,5 +1,8 @@
 package com.matuageorge.webapp.storage;
 
+import com.matuageorge.webapp.exception.ExistStorageException;
+import com.matuageorge.webapp.exception.NotExistStorageException;
+import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -21,6 +24,8 @@ public abstract class AbstractArrayStorage implements Storage {
 
         if (index >= 0) {
             storage[index] = resume;
+        } else {
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
@@ -28,9 +33,11 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
 
-        if (index < 0) {
+        if (index >= 0) {
+            throw new ExistStorageException(resume.getUuid());
+        } else {
             if (size == STORAGE_LIMIT) {
-                System.out.println("The storage is full. Cannot complete the operation.");
+                throw new StorageException("Storage Overflow", resume.getUuid());
             } else {
                 insertResume(resume, index);
                 size++;
@@ -44,7 +51,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         }
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     @Override
@@ -55,6 +62,8 @@ public abstract class AbstractArrayStorage implements Storage {
             replaceResume(index);
             storage[size - 1] = null;
             size--;
+        } else {
+            throw new NotExistStorageException(uuid);
         }
     }
 
