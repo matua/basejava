@@ -1,5 +1,6 @@
 package com.matuageorge.webapp;
 
+import com.matuageorge.webapp.exception.NotExistStorageException;
 import com.matuageorge.webapp.model.Resume;
 import com.matuageorge.webapp.storage.SortedArraysStorage;
 import com.matuageorge.webapp.storage.Storage;
@@ -22,7 +23,12 @@ public class MainTestArrayStorage {
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
-        System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
+        try {
+            System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
+        } catch (NotExistStorageException e) {
+            System.out.println(e.getMessage());
+        }
+
 
         printAll();
         ARRAY_STORAGE.delete(r1.getUuid());
