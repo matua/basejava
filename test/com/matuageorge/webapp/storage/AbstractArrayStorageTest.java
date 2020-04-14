@@ -8,7 +8,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 import static com.matuageorge.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
@@ -98,13 +97,10 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume resume1 = new Resume(UUID_1);
-        Resume resume2 = new Resume(UUID_2);
-        Resume resume3 = new Resume(UUID_3);
-        Resume[] storageToCompare = {resume1, resume2, resume3};
+        Resume[] expectedResumes = {RESUME1, RESUME2, RESUME3};
 
         assertEquals(3, storage.getAll().length);
-        assertTrue(Arrays.equals(storage.getAll(), storageToCompare));
+        assertArrayEquals(expectedResumes, storage.getAll());
     }
 
     @Test
