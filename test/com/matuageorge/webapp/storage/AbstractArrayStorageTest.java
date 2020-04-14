@@ -8,12 +8,18 @@ import org.junit.*;
 import java.util.Random;
 import java.util.UUID;
 
+import static com.matuageorge.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
+import static org.junit.Assert.*;
+
 public abstract class AbstractArrayStorageTest {
 
     private Storage storage;
     public static final String UUID_1 = "uuid1";
+    public static final Resume RESUME1 = new Resume(UUID_1);
     public static final String UUID_2 = "uuid2";
+    public static final Resume RESUME2 = new Resume(UUID_2);
     public static final String UUID_3 = "uuid3";
+    public static final Resume RESUME3 = new Resume(UUID_3);
 
     protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -22,9 +28,9 @@ public abstract class AbstractArrayStorageTest {
     @Before
     public void setUp() {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(RESUME1);
+        storage.save(RESUME2);
+        storage.save(RESUME3);
     }
 
     @AfterClass
@@ -35,34 +41,29 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void clear() {
         storage.clear();
-        Assert.assertEquals(0, storage.size());
+        assertEquals(0, storage.size());
     }
 
     @Test
     public void update() {
-        Resume resume = new Resume("uuid1");
+        Resume resume = new Resume(UUID_1);
         storage.update(resume);
-        Assert.assertEquals(storage.get("uuid1"), resume);
-        Assert.assertNotEquals(storage.get("uuid2"), resume);
-        Assert.assertNotEquals(storage.get("uuid3"), resume);
+        assertEquals(RESUME1, resume);
     }
 
     @Test
     public void save() {
         Resume resume = new Resume("new uuid");
         storage.save(new Resume("new uuid"));
-        Assert.assertEquals(storage.get("new uuid"), resume);
-        Assert.assertNotEquals(storage.get("uuid1"), resume);
-        Assert.assertNotEquals(storage.get("uuid2"), resume);
-        Assert.assertNotEquals(storage.get("uuid3"), resume);
+        assertEquals(storage.get("new uuid"), resume);
     }
 
     @Test
     public void get() {
-        Resume resume = new Resume("uuid1");
-        Assert.assertEquals(storage.get("uuid1"), resume);
-        Assert.assertNotEquals(storage.get("uuid2"), resume);
-        Assert.assertNotEquals(storage.get("uuid3"), resume);
+        Resume resume = new Resume(UUID_1);
+        assertEquals(storage.get(UUID_1), resume);
+        assertNotEquals(storage.get(UUID_2), resume);
+        assertNotEquals(storage.get(UUID_3), resume);
 
     }
 
@@ -80,13 +81,13 @@ public abstract class AbstractArrayStorageTest {
 
         switch (randomSwitch) {
             case 0:
-                uuid = "uuid1";
+                uuid = UUID_1;
                 break;
             case 1:
-                uuid = "uuid2";
+                uuid = UUID_2;
                 break;
             case 2:
-                uuid = "uuid3";
+                uuid = UUID_3;
                 break;
             default:
                 uuid = null;
@@ -97,30 +98,30 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume resume1 = new Resume("uuid1");
-        Resume resume2 = new Resume("uuid2");
-        Resume resume3 = new Resume("uuid3");
+        Resume resume1 = new Resume(UUID_1);
+        Resume resume2 = new Resume(UUID_2);
+        Resume resume3 = new Resume(UUID_3);
 
-        Assert.assertEquals(3, storage.getAll().length);
-        Assert.assertEquals(storage.get("uuid1"), resume1);
-        Assert.assertEquals(storage.get("uuid2"), resume2);
-        Assert.assertEquals(storage.get("uuid3"), resume3);
+        assertEquals(3, storage.getAll().length);
+        assertEquals(storage.get(UUID_1), resume1);
+        assertEquals(storage.get(UUID_2), resume2);
+        assertEquals(storage.get(UUID_3), resume3);
     }
 
     @Test
     public void size() {
-        Assert.assertEquals(3, storage.size());
+        assertEquals(3, storage.size());
     }
 
     //https://www.javaguides.net/2018/08/junit-assertfail-method-example.html
     @Test(expected = StorageException.class)
     public void storageOverflow() {
         try {
-            for (int i = 3; i <= 9_999; i++) {
+            for (int i = 3; i <= STORAGE_LIMIT; i++) {
                 storage.save(new Resume(UUID.randomUUID().toString()));
             }
         } catch (StorageException e) {
-            Assert.fail("Storage overflow test failed");
+            fail("Storage overflow test failed");
         }
         storage.save(new Resume());
     }
