@@ -15,7 +15,8 @@ import static org.junit.Assert.*;
 
 public abstract class AbstractArrayStorageTest {
 
-    public static final Resume NEW_UUID = new Resume("new uuid");
+    public static final Resume RESUME_NEW_UUID = new Resume(
+            "new uuid");
     private final Storage storage;
     public static final String UUID_1 = "uuid1";
     public static final Resume RESUME1 = new Resume(UUID_1);
@@ -56,13 +57,13 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        storage.update(NEW_UUID);
+        storage.update(RESUME_NEW_UUID);
     }
 
     @Test
     public void save() {
-        storage.save(NEW_UUID);
-        assertEquals(storage.get("new uuid"), NEW_UUID);
+        storage.save(RESUME_NEW_UUID);
+        assertEquals(storage.get("new uuid"), RESUME_NEW_UUID);
         assertEquals(4, storage.size());
     }
 
