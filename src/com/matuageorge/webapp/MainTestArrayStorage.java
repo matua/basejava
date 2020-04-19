@@ -1,6 +1,7 @@
 package com.matuageorge.webapp;
 
 import com.matuageorge.webapp.exception.NotExistStorageException;
+import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
 import com.matuageorge.webapp.storage.SortedArraysStorage;
 import com.matuageorge.webapp.storage.Storage;
@@ -11,7 +12,7 @@ import com.matuageorge.webapp.storage.Storage;
 public class MainTestArrayStorage {
     static final Storage ARRAY_STORAGE = new SortedArraysStorage();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws StorageException {
         Resume r1 = new Resume("uuid1");
         Resume r2 = new Resume("uuid2");
         Resume r3 = new Resume("uuid3");

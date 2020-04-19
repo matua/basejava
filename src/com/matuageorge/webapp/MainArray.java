@@ -1,5 +1,6 @@
 package com.matuageorge.webapp;
 
+import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
 import com.matuageorge.webapp.storage.ListStorage;
 import com.matuageorge.webapp.storage.Storage;
@@ -15,7 +16,7 @@ import java.io.InputStreamReader;
 public class MainArray {
     private final static Storage ARRAY_STORAGE = new ListStorage();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, StorageException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
