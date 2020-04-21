@@ -49,10 +49,6 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract void replaceResume(int index);
-
-    protected abstract void insertResume(Resume resume, int index);
-
     protected abstract void innerUpdate(Resume resume, int index);
 
     protected abstract void innerSave(Resume resume, int index);

@@ -25,16 +25,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void replaceResume(int index) {
-        innerUpdate(storage.get(storage.size() - 1), index);
-    }
-
-    @Override
-    protected void insertResume(Resume resume, int index) {
-        innerSave(resume, index);
-    }
-
-    @Override
     protected void innerUpdate(Resume resume, int index) {
         storage.set(index, resume);
     }
