@@ -15,7 +15,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void innerUpdate(Resume resume, Object key) {
-        storage.put((String) key, resume);
+        innerSave(resume, key);
     }
 
     @Override
