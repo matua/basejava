@@ -7,10 +7,10 @@ import com.matuageorge.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
     @Override
     public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
+        Object key = getKey(resume.getUuid());
 
-        if (index >= 0) {
-            innerUpdate(resume, index);
+        if (found(key)) {
+            innerUpdate(resume, key);
         } else {
             throw new NotExistStorageException(resume.getUuid());
         }
@@ -18,43 +18,43 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
+        Object key = getKey(resume.getUuid());
 
-        if (index >= 0) {
+        if (found(key)) {
             throw new ExistStorageException(resume.getUuid());
         } else {
-            innerSave(resume, index);
+            innerSave(resume, key);
         }
     }
 
     public Resume get(String uuid) {
-        int index = getIndex(uuid);
-
-        if (index >= 0) {
-            return getResume(index);
+        Object key = getKey(uuid);
+        if (found(key)) {
+            return getResume(key);
         }
         throw new NotExistStorageException(uuid);
     }
 
     @Override
     public void delete(String uuid) {
-        int index = getIndex(uuid);
+        Object key = getKey(uuid);
 
-        if (index >= 0) {
-            innerDelete(index);
+        if (found(key)) {
+            innerDelete(key);
         } else {
             throw new NotExistStorageException(uuid);
         }
     }
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Object getKey(String uuid);
 
-    protected abstract void innerUpdate(Resume resume, int index);
+    protected abstract void innerUpdate(Resume resume, Object key);
 
-    protected abstract void innerSave(Resume resume, int index);
+    protected abstract void innerSave(Resume resume, Object key);
 
-    protected abstract void innerDelete(int index);
+    protected abstract void innerDelete(Object key);
 
-    protected abstract Resume getResume(int index);
+    protected abstract Resume getResume(Object key);
 
+    protected abstract boolean found(Object key);
 }

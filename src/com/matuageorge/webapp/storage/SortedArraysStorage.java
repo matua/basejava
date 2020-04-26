@@ -12,7 +12,7 @@ public class SortedArraysStorage extends AbstractArrayStorage {
      or toIndex if all elements in the range are less than the specified key. Note that this guarantees
       that the return value will be >= 0 if and only if the key is found.*/
     @Override
-    protected int getIndex(String uuid) {
+    protected Integer getKey(String uuid) {
         Resume toSearch = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, toSearch);
     }

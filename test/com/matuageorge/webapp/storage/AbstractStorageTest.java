@@ -13,7 +13,7 @@ import java.util.UUID;
 import static com.matuageorge.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.*;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
 
     public static final Resume RESUME_NEW_UUID = new Resume(
             "new uuid");
@@ -25,7 +25,7 @@ public abstract class AbstractArrayStorageTest {
     public static final String UUID_3 = "uuid3";
     public static final Resume RESUME3 = new Resume(UUID_3);
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 

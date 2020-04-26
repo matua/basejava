@@ -3,14 +3,14 @@ package com.matuageorge.webapp;
 import com.matuageorge.webapp.exception.NotExistStorageException;
 import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
-import com.matuageorge.webapp.storage.SortedArraysStorage;
+import com.matuageorge.webapp.storage.MapStorage;
 import com.matuageorge.webapp.storage.Storage;
 
 /**
  * Test for your com.matuageorge.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final Storage ARRAY_STORAGE = new SortedArraysStorage();
+    static final Storage ARRAY_STORAGE = new MapStorage();
 
     public static void main(String[] args) throws StorageException {
         Resume r1 = new Resume("uuid1");

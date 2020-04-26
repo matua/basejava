@@ -2,54 +2,61 @@ package com.matuageorge.webapp.storage;
 
 import com.matuageorge.webapp.model.Resume;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MapStorage extends AbstractStorage {
+    Map<String, Resume> storage = new HashMap<>();
+
     @Override
-    protected int getIndex(String uuid) {
-        return 0;
+    protected Object getKey(String uuid) {
+        return uuid;
     }
 
     @Override
-    protected void replaceResume(int index) {
-
+    protected void innerUpdate(Resume resume, Object key) {
+        storage.put((String) key, resume);
     }
 
     @Override
-    protected void insertResume(Resume resume, int index) {
-
+    protected void innerSave(Resume resume, Object key) {
+        storage.put((String) key, resume);
     }
 
     @Override
-    protected void innerUpdate(Resume resume, int index) {
-
+    protected void innerDelete(Object key) {
+        storage.remove(key);
     }
 
     @Override
-    protected void innerSave(Resume resume, int index) {
-
+    protected Resume getResume(Object key) {
+        return storage.get(key);
     }
 
     @Override
-    protected void innerDelete(int index) {
-
-    }
-
-    @Override
-    protected Resume getResume(int index) {
-        return null;
+    protected boolean found(Object key) {
+        return storage.containsKey(key);
     }
 
     @Override
     public void clear() {
-
+        storage.clear();
     }
 
     @Override
     public Resume[] getAll() {
-        return new Resume[0];
+        Resume[] result = new Resume[storage.size()];
+//        return storage.entrySet().toArray(new Resume[0]);
+        int count = 0;
+        for (Map.Entry<String, Resume> resumes : storage.entrySet()) {
+            result[count] = resumes.getValue();
+            count++;
+        }
+        return result;
     }
 
     @Override
     public int size() {
-        return 0;
+        return storage.size();
     }
 }
