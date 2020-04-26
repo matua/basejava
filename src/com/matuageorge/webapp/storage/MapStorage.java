@@ -34,7 +34,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean found(Object key) {
+    protected boolean isExist(Object key) {
         return storage.containsKey(key);
     }
 
@@ -45,13 +45,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        Resume[] result = new Resume[storage.size()];
-        int count = 0;
-        for (Map.Entry<String, Resume> resumes : storage.entrySet()) {
-            result[count] = resumes.getValue();
-            count++;
-        }
-        return result;
+        return storage.values().toArray(new Resume[0]);
     }
 
     @Override

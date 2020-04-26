@@ -5,45 +5,44 @@ import com.matuageorge.webapp.exception.NotExistStorageException;
 import com.matuageorge.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
+
     @Override
     public void update(Resume resume) {
-        Object key = getKey(resume.getUuid());
-
-        if (found(key)) {
-            innerUpdate(resume, key);
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+        Object key = isExistCheck(resume.getUuid());
+        innerUpdate(resume, key);
     }
 
     @Override
     public void save(Resume resume) {
-        Object key = getKey(resume.getUuid());
-
-        if (found(key)) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            innerSave(resume, key);
-        }
+        Object key = isNotExistCheck(resume.getUuid());
+        innerSave(resume, key);
     }
 
     public Resume get(String uuid) {
-        Object key = getKey(uuid);
-        if (found(key)) {
-            return getResume(key);
-        }
-        throw new NotExistStorageException(uuid);
+        Object key = isExistCheck(uuid);
+        return getResume(key);
     }
 
     @Override
     public void delete(String uuid) {
-        Object key = getKey(uuid);
+        Object key = isExistCheck(uuid);
+        innerDelete(key);
+    }
 
-        if (found(key)) {
-            innerDelete(key);
-        } else {
+    protected Object isExistCheck(String uuid) {
+        Object key = getKey(uuid);
+        if (!isExist(key)) {
             throw new NotExistStorageException(uuid);
         }
+        return key;
+    }
+
+    private Object isNotExistCheck(String uuid) {
+        Object key = getKey(uuid);
+        if (isExist(key)) {
+            throw new ExistStorageException(uuid);
+        }
+        return key;
     }
 
     protected abstract Object getKey(String uuid);
@@ -56,5 +55,5 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Resume getResume(Object key);
 
-    protected abstract boolean found(Object key);
+    protected abstract boolean isExist(Object key);
 }
