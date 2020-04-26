@@ -46,7 +46,6 @@ public class MapStorage extends AbstractStorage {
     @Override
     public Resume[] getAll() {
         Resume[] result = new Resume[storage.size()];
-//        return storage.entrySet().toArray(new Resume[0]);
         int count = 0;
         for (Map.Entry<String, Resume> resumes : storage.entrySet()) {
             result[count] = resumes.getValue();
