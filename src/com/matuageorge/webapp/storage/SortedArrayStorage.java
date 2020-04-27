@@ -4,7 +4,7 @@ import com.matuageorge.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class SortedArraysStorage extends AbstractArrayStorage {
+public class SortedArrayStorage extends AbstractArrayStorage {
 
     /*index of the search key, if it is contained in the array within the specified range; otherwise,
     (-(insertion point) - 1). The insertion point is defined as the point at which the key would be

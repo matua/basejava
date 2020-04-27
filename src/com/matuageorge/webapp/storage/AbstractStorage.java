@@ -8,28 +8,28 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        Object key = isExistCheck(resume.getUuid());
+        Object key = doesNotExistCheck(resume.getUuid());
         innerUpdate(resume, key);
     }
 
     @Override
     public void save(Resume resume) {
-        Object key = isNotExistCheck(resume.getUuid());
+        Object key = doesExistCheck(resume.getUuid());
         innerSave(resume, key);
     }
 
     public Resume get(String uuid) {
-        Object key = isExistCheck(uuid);
+        Object key = doesNotExistCheck(uuid);
         return getResume(key);
     }
 
     @Override
     public void delete(String uuid) {
-        Object key = isExistCheck(uuid);
+        Object key = doesNotExistCheck(uuid);
         innerDelete(key);
     }
 
-    protected Object isExistCheck(String uuid) {
+    protected Object doesNotExistCheck(String uuid) {
         Object key = getKey(uuid);
         if (!isExist(key)) {
             throw new NotExistStorageException(uuid);
@@ -37,7 +37,7 @@ public abstract class AbstractStorage implements Storage {
         return key;
     }
 
-    private Object isNotExistCheck(String uuid) {
+    private Object doesExistCheck(String uuid) {
         Object key = getKey(uuid);
         if (isExist(key)) {
             throw new ExistStorageException(uuid);
