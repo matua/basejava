@@ -34,7 +34,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object key) {
+    protected boolean doesExist(Object key) {
         return storage.containsKey(key);
     }
 
