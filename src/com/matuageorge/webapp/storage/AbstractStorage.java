@@ -4,6 +4,8 @@ import com.matuageorge.webapp.exception.ExistStorageException;
 import com.matuageorge.webapp.exception.NotExistStorageException;
 import com.matuageorge.webapp.model.Resume;
 
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage {
 
     @Override
@@ -45,6 +47,13 @@ public abstract class AbstractStorage implements Storage {
         return key;
     }
 
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> result = innerGetAllSorted();
+        result.sort(Resume.ResumeComparator.compareByNameAndByUUID);
+        return result;
+    }
+
     protected abstract Object getKey(String uuid);
 
     protected abstract void innerUpdate(Resume resume, Object key);
@@ -56,4 +65,6 @@ public abstract class AbstractStorage implements Storage {
     protected abstract Resume getResume(Object key);
 
     protected abstract boolean doesExist(Object key);
+
+    protected abstract List<Resume> innerGetAllSorted();
 }

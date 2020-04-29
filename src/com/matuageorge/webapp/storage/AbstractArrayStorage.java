@@ -4,11 +4,16 @@ import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
+
+    public Resume[] getStorage() {
+        return storage;
+    }
 
     @Override
     public void clear() {
@@ -32,8 +37,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object index) {
-        return storage[(int) index];
+    protected Resume getResume(Object key) {
+        return storage[(int) key];
     }
 
     @Override
@@ -41,11 +46,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         replaceResume((int) key);
         storage[size - 1] = null;
         size--;
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
     }
 
     @Override
@@ -62,5 +62,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     protected boolean doesExist(Object key) {
         return (Integer) key >= 0;
+    }
+
+    @Override
+    protected List<Resume> innerGetAllSorted() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 }

@@ -1,6 +1,7 @@
 package com.matuageorge.webapp.storage;
 
-public class ArrayStorageTest extends AbstractStorageTest {
+public class ArrayStorageTest extends AbstractArraysStorageTest {
+
     public ArrayStorageTest() {
         super(new ArrayStorage());
     }

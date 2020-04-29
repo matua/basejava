@@ -1,22 +1,30 @@
 package com.matuageorge.webapp.model;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Initial resume class
  */
-public class Resume implements Comparable<Resume> {
+public class Resume {
 
     // Unique identifier
     private final String uuid;
+    private final String fullName;
 
-    public Resume() {
-        this(UUID.randomUUID().toString());
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
-    public Resume(String uuid) {
+    public Resume(String uuid, String fullName) {
+
         this.uuid = uuid;
+        this.fullName = fullName;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public String getUuid() {
@@ -33,16 +41,22 @@ public class Resume implements Comparable<Resume> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return uuid.equals(resume.uuid);
+        return uuid.equals(resume.uuid) &&
+                Objects.equals(fullName, resume.fullName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return Objects.hash(uuid, fullName);
     }
 
-    @Override
-    public int compareTo(Resume o) {
-        return uuid.compareTo(o.uuid);
+    public static class ResumeComparator {
+        public static Comparator<Resume> compareByNameAndByUUID = (o1, o2) -> {
+            if (!o1.getFullName().equals(o2.getFullName())) {
+                return o1.getFullName().compareTo(o2.getFullName());
+            } else {
+                return o1.getUuid().compareTo(o2.getFullName());
+            }
+        };
     }
 }
