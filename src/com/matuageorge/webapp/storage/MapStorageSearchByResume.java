@@ -31,13 +31,13 @@ public class MapStorageSearchByResume extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object resume) {
+    protected Resume innerGet(Object resume) {
         return (Resume) resume;
     }
 
     @Override
-    protected boolean doesExist(Object resume) {
-        return storage.containsKey(resume);
+    protected boolean isExist(Object resume) {
+        return resume != null;
     }
 
     @Override

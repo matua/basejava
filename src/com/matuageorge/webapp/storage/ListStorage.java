@@ -9,19 +9,19 @@ public class ListStorage extends AbstractStorage {
     private final List<Resume> storage = new ArrayList<>();
 
     @Override
-    protected Resume getResume(Object key) {
+    protected Resume innerGet(Object key) {
         return storage.get((Integer) key);
     }
 
     @Override
-    protected boolean doesExist(Object key) {
+    protected boolean isExist(Object key) {
         return key != null;
     }
 
     @Override
     protected Integer getKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
-            if (getResume(i).getUuid().equals(uuid)) {
+            if (innerGet(i).getUuid().equals(uuid)) {
                 return i;
             }
         }

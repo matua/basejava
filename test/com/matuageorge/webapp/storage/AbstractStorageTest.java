@@ -18,14 +18,11 @@ public abstract class AbstractStorageTest {
     public static final Resume RESUME_NEW_UUID = new Resume(
             "new_uuid", "Smith");
     public static final String UUID_1 = "uuid_1";
-    public static final String NAME_1 = "Ivanov";
-    public static final Resume RESUME1 = new Resume(UUID_1, NAME_1);
+    public static final Resume RESUME1 = new Resume(UUID_1, "Ivanov");
     public static final String UUID_2 = "uuid_2";
-    public static final String NAME_2 = "Matua";
-    public static final Resume RESUME2 = new Resume(UUID_2, NAME_2);
+    public static final Resume RESUME2 = new Resume(UUID_2, "Matua");
     public static final String UUID_3 = "uuid_3";
-    public static final String NAME_3 = "Petrov";
-    public static final Resume RESUME3 = new Resume(UUID_3, NAME_3);
+    public static final Resume RESUME3 = new Resume(UUID_3, "Petrov");
     protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
@@ -53,7 +50,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = new Resume(UUID_1, NAME_1);
+        Resume resume = new Resume(UUID_1, "Ivanov");
         storage.update(resume);
         assertSame(resume, storage.get(UUID_1));
     }
@@ -78,7 +75,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        Resume resume = new Resume(UUID_1, NAME_1);
+        Resume resume = new Resume(UUID_1, "Ivanov");
         assertEquals(storage.get(UUID_1), resume);
     }
 
@@ -103,7 +100,7 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() {
         List<Resume> storageToCompare = storage.getAllSorted();
         assertEquals(3, storageToCompare.size());
-        assertEquals(storageToCompare, Arrays.asList(RESUME1, RESUME2, RESUME3));
+        assertEquals(Arrays.asList(RESUME1, RESUME2, RESUME3), storageToCompare);
     }
 
     @Test

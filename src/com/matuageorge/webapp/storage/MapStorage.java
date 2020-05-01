@@ -31,12 +31,12 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object key) {
+    protected Resume innerGet(Object key) {
         return storage.get(key);
     }
 
     @Override
-    protected boolean doesExist(Object key) {
+    protected boolean isExist(Object key) {
         return storage.containsKey(key);
     }
 

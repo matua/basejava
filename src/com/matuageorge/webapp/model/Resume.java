@@ -1,13 +1,12 @@
 package com.matuageorge.webapp.model;
 
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Initial resume class
  */
-public class Resume {
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;
@@ -50,13 +49,12 @@ public class Resume {
         return Objects.hash(uuid, fullName);
     }
 
-    public static class ResumeComparator {
-        public static Comparator<Resume> compareByNameAndByUUID = (o1, o2) -> {
-            if (!o1.getFullName().equals(o2.getFullName())) {
-                return o1.getFullName().compareTo(o2.getFullName());
-            } else {
-                return o1.getUuid().compareTo(o2.getFullName());
-            }
-        };
+    @Override
+    public int compareTo(Resume o) {
+        if (!this.getFullName().equals(o.getFullName())) {
+            return this.getFullName().compareTo(o.getFullName());
+        } else {
+            return this.getUuid().compareTo(o.getFullName());
+        }
     }
 }

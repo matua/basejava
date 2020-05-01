@@ -4,6 +4,7 @@ import com.matuageorge.webapp.exception.ExistStorageException;
 import com.matuageorge.webapp.exception.NotExistStorageException;
 import com.matuageorge.webapp.model.Resume;
 
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
@@ -22,7 +23,7 @@ public abstract class AbstractStorage implements Storage {
 
     public Resume get(String uuid) {
         Object key = doesNotExistCheck(uuid);
-        return getResume(key);
+        return innerGet(key);
     }
 
     @Override
@@ -31,9 +32,9 @@ public abstract class AbstractStorage implements Storage {
         innerDelete(key);
     }
 
-    protected Object doesNotExistCheck(String uuid) {
+    private Object doesNotExistCheck(String uuid) {
         Object key = getKey(uuid);
-        if (!doesExist(key)) {
+        if (!isExist(key)) {
             throw new NotExistStorageException(uuid);
         }
         return key;
@@ -41,7 +42,7 @@ public abstract class AbstractStorage implements Storage {
 
     private Object doesExistCheck(String uuid) {
         Object key = getKey(uuid);
-        if (doesExist(key)) {
+        if (isExist(key)) {
             throw new ExistStorageException(uuid);
         }
         return key;
@@ -50,7 +51,7 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> result = innerGetAllSorted();
-        result.sort(Resume.ResumeComparator.compareByNameAndByUUID);
+        Collections.sort(result);
         return result;
     }
 
@@ -62,9 +63,9 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void innerDelete(Object key);
 
-    protected abstract Resume getResume(Object key);
+    protected abstract Resume innerGet(Object key);
 
-    protected abstract boolean doesExist(Object key);
+    protected abstract boolean isExist(Object key);
 
     protected abstract List<Resume> innerGetAllSorted();
 }

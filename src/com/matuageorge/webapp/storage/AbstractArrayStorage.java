@@ -11,10 +11,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
-    public Resume[] getStorage() {
-        return storage;
-    }
-
     @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -37,7 +33,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object key) {
+    protected Resume innerGet(Object key) {
         return storage[(int) key];
     }
 
@@ -60,12 +56,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract Integer getKey(String uuid);
 
     @Override
-    protected boolean doesExist(Object key) {
+    protected boolean isExist(Object key) {
         return (Integer) key >= 0;
     }
 
     @Override
     protected List<Resume> innerGetAllSorted() {
-        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 }
