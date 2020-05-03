@@ -7,41 +7,41 @@ import com.matuageorge.webapp.model.Resume;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public void update(Resume resume) {
-        Object key = doesNotExistCheck(resume.getUuid());
+        SK key = doesNotExistCheck(resume.getUuid());
         innerUpdate(resume, key);
     }
 
     @Override
     public void save(Resume resume) {
-        Object key = doesExistCheck(resume.getUuid());
+        SK key = doesExistCheck(resume.getUuid());
         innerSave(resume, key);
     }
 
     public Resume get(String uuid) {
-        Object key = doesNotExistCheck(uuid);
+        SK key = doesNotExistCheck(uuid);
         return innerGet(key);
     }
 
     @Override
     public void delete(String uuid) {
-        Object key = doesNotExistCheck(uuid);
+        SK key = doesNotExistCheck(uuid);
         innerDelete(key);
     }
 
-    private Object doesNotExistCheck(String uuid) {
-        Object key = getKey(uuid);
+    private SK doesNotExistCheck(String uuid) {
+        SK key = getKey(uuid);
         if (!isExist(key)) {
             throw new NotExistStorageException(uuid);
         }
         return key;
     }
 
-    private Object doesExistCheck(String uuid) {
-        Object key = getKey(uuid);
+    private SK doesExistCheck(String uuid) {
+        SK key = getKey(uuid);
         if (isExist(key)) {
             throw new ExistStorageException(uuid);
         }
@@ -55,17 +55,17 @@ public abstract class AbstractStorage implements Storage {
         return result;
     }
 
-    protected abstract Object getKey(String uuid);
+    protected abstract SK getKey(String uuid);
 
-    protected abstract void innerUpdate(Resume resume, Object key);
+    protected abstract void innerUpdate(Resume resume, SK key);
 
-    protected abstract void innerSave(Resume resume, Object key);
+    protected abstract void innerSave(Resume resume, SK key);
 
-    protected abstract void innerDelete(Object key);
+    protected abstract void innerDelete(SK key);
 
-    protected abstract Resume innerGet(Object key);
+    protected abstract Resume innerGet(SK key);
 
-    protected abstract boolean isExist(Object key);
+    protected abstract boolean isExist(SK key);
 
     protected abstract List<Resume> innerGetAllSorted();
 }

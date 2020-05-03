@@ -5,16 +5,16 @@ import com.matuageorge.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
     private final List<Resume> storage = new ArrayList<>();
 
     @Override
-    protected Resume innerGet(Object key) {
-        return storage.get((Integer) key);
+    protected Resume innerGet(Integer key) {
+        return storage.get(key);
     }
 
     @Override
-    protected boolean isExist(Object key) {
+    protected boolean isExist(Integer key) {
         return key != null;
     }
 
@@ -29,18 +29,18 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void innerUpdate(Resume resume, Object key) {
-        storage.set((Integer) key, resume);
+    protected void innerUpdate(Resume resume, Integer key) {
+        storage.set(key, resume);
     }
 
     @Override
-    protected void innerSave(Resume resume, Object key) {
+    protected void innerSave(Resume resume, Integer key) {
         storage.add(resume);
     }
 
     @Override
-    protected void innerDelete(Object key) {
-        storage.remove(((Integer) key).intValue());
+    protected void innerDelete(Integer key) {
+        storage.remove(key.intValue());
     }
 
     @Override

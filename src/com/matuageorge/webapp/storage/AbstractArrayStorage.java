@@ -6,7 +6,7 @@ import com.matuageorge.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
@@ -18,28 +18,28 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void innerUpdate(Resume resume, Object key) {
-        storage[(int) key] = resume;
+    protected void innerUpdate(Resume resume, Integer key) {
+        storage[key] = resume;
     }
 
     @Override
-    protected void innerSave(Resume resume, Object key) {
+    protected void innerSave(Resume resume, Integer key) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage Overflow", resume.getUuid());
         } else {
-            insertResume(resume, (int) key);
+            insertResume(resume, key);
             size++;
         }
     }
 
     @Override
-    protected Resume innerGet(Object key) {
-        return storage[(int) key];
+    protected Resume innerGet(Integer key) {
+        return storage[key];
     }
 
     @Override
-    protected void innerDelete(Object key) {
-        replaceResume((int) key);
+    protected void innerDelete(Integer key) {
+        replaceResume(key);
         storage[size - 1] = null;
         size--;
     }
@@ -56,8 +56,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract Integer getKey(String uuid);
 
     @Override
-    protected boolean isExist(Object key) {
-        return (Integer) key >= 0;
+    protected boolean isExist(Integer key) {
+        return key >= 0;
     }
 
     @Override
