@@ -49,17 +49,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return storage;
-    }
-
-    @Override
     public int size() {
         return storage.size();
     }
 
     @Override
     protected List<Resume> innerGetAllSorted() {
-        return new ArrayList<>(storage);
+        return storage;
     }
 }
