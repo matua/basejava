@@ -1,0 +1,41 @@
+package com.matuageorge.webapp.model;
+
+import java.util.List;
+import java.util.Objects;
+
+public class HistorySection extends Section {
+    private final List<Organization> organizations;
+
+    public HistorySection(String description, List<Organization> organizations) {
+        super(description);
+        this.organizations = organizations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        HistorySection that = (HistorySection) o;
+
+        return Objects.equals(organizations, that.organizations);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (organizations != null ? organizations.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+
+        for (Organization org : organizations) {
+            result.append(org);
+        }
+        return result.toString();
+    }
+}

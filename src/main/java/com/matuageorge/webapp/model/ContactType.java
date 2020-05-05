@@ -1,6 +1,6 @@
 package com.matuageorge.webapp.model;
 
-public enum Contacts {
+public enum ContactType {
     PHONE("Phone"),
     SKYPE("Skype"),
     EMAIL("Email"),
@@ -9,6 +9,6 @@ public enum Contacts {
     STACKOVERFLOW("Stackoverflow"),
     HOMEPAGE("Home page");
 
-    Contacts(String name) {
+    ContactType(String name) {
     }
 }

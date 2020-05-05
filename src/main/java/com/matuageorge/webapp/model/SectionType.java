@@ -6,7 +6,7 @@ public enum SectionType {
     ACHIEVEMENT("Достижения"),
     QUALIFICATIONS("Квалификация"),
     EXPERIENCE("Опыт работы"),
-    EDUCATION("ОБразование");
+    EDUCATION("Образование");
 
     private final String title;
 
