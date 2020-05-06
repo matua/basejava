@@ -47,14 +47,22 @@ public class Resume implements Comparable<Resume> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Resume resume = (Resume) o;
-        return uuid.equals(resume.uuid) &&
-                Objects.equals(fullName, resume.fullName);
+
+        if (!Objects.equals(uuid, resume.uuid)) return false;
+        if (!Objects.equals(fullName, resume.fullName)) return false;
+        if (!Objects.equals(contacts, resume.contacts)) return false;
+        return Objects.equals(sections, resume.sections);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, fullName);
+        int result = uuid != null ? uuid.hashCode() : 0;
+        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
+        result = 31 * result + (contacts != null ? contacts.hashCode() : 0);
+        result = 31 * result + (sections != null ? sections.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -85,7 +93,7 @@ public class Resume implements Comparable<Resume> {
                     .append("\n");
         }
 
-        return result.append(fullName).append("\n\n")
+        return result.append(uuid).append("\n").append(fullName).append("\n\n")
                 .append(contactsBuilder)
                 .append("\n")
                 .append(sectionBuilder).toString();
