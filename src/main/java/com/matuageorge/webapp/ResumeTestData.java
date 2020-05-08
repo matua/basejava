@@ -5,10 +5,7 @@ import com.matuageorge.webapp.model.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ResumeTestData {
     public static void main(String[] args) {
@@ -87,19 +84,22 @@ public class ResumeTestData {
 
         List<Organization> experienceList = new ArrayList<>();
         Section experience = new OrganizationSection(experienceList);
+        Map<YearMonth, YearMonth> period1 = new HashMap<>();
+        Map<YearMonth, YearMonth> period2 = new HashMap<>();
+
+        period1.put(YearMonth.of(2013, 10), YearMonth.now());
+        period2.put(YearMonth.of(2014, 10), YearMonth.of(2016, 1));
+
         try {
             experienceList.add(new Organization
-                    (new WebLink("Java Online Projects", new URL("http://javaops.ru/")),
-                            YearMonth.of(2013, 10),
-                            YearMonth.now(),
+                    (new WebLink("Java Online Projects", new URL("http://javaops.ru/")), period1,
                             new TextSection("Проектирование и разработка онлайн платформы управления проектами Wrike " +
                                     "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная " +
                                     "аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
 
             experienceList.add(new Organization
                     (new WebLink("RIT Center"),
-                            YearMonth.of(2014, 10),
-                            YearMonth.of(2016, 1),
+                            period2,
                             new TextSection("Организация процесса разработки системы ERP для разных " +
                                     "окружений: релизная политика, версионирование, ведение CI (Jenkins), " +
                                     "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, " +
@@ -120,23 +120,29 @@ public class ResumeTestData {
 
         List<Organization> educationList = new ArrayList<>();
         Section education = new OrganizationSection(educationList);
+
+        Map<YearMonth, YearMonth> educationPeriod1 = new HashMap<>();
+        Map<YearMonth, YearMonth> educationPeriod2 = new HashMap<>();
+
+        educationPeriod1.put(YearMonth.of(2011, 3), YearMonth.of(2011, 4));
+        educationPeriod2.put(YearMonth.of(2000, 1), YearMonth.of(2002, 4));
+        educationPeriod2.put(YearMonth.of(2005, 1), YearMonth.of(2005, 4));
+
+
         try {
             educationList.add(new Organization
                     (new WebLink("Coursera", new URL("https://www.coursera.org/course/progfun")),
-                            YearMonth.of(2013, 3),
-                            YearMonth.of(2013, 5),
+                            educationPeriod1,
                             new TextSection("\"Functional Programming Principles in Scala\" by Martin Odersky")));
 
             educationList.add(new Organization
                     (new WebLink("Luxoft", new URL("http://www.luxoft-training.ru/training/catalog/course.html?ID=22366")),
-                            YearMonth.of(2011, 3),
-                            YearMonth.of(2011, 4),
+                            educationPeriod1,
                             new TextSection("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")));
 
             educationList.add(new Organization
                     (new WebLink("Siemens AG", new URL("http://www.siemens.ru/")),
-                            YearMonth.of(2005, 1),
-                            YearMonth.of(2005, 4),
+                            educationPeriod2,
                             new TextSection("3 месяца обучения мобильным IN сетям (Берлин)")));
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -147,6 +153,7 @@ public class ResumeTestData {
 
         masterResume.setContacts(contacts);
         masterResume.setSections(sections);
+
 
         System.out.println(masterResume);
 
