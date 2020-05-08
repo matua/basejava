@@ -6,8 +6,7 @@ import java.util.Objects;
 public class BulletsSection extends Section {
     private final List<String> bullets;
 
-    public BulletsSection(String description, List<String> bullets) {
-        super(description);
+    public BulletsSection(List<String> bullets) {
         this.bullets = bullets;
     }
 

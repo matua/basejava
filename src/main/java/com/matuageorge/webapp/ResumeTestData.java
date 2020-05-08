@@ -15,6 +15,7 @@ public class ResumeTestData {
         Resume masterResume = new Resume("Григорий Кислин");
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+
         contacts.put(ContactType.PHONE, "+7(921) 855-0482");
         contacts.put(ContactType.SKYPE, "grigory.kislin");
         contacts.put(ContactType.EMAIL, "gkislin@yandex.ru");
@@ -25,9 +26,9 @@ public class ResumeTestData {
 
         Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
-        sections.put(SectionType.OBJECTIVE, new Section("Ведущий стажировок и корпоративного обучения по Java" +
+        sections.put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java" +
                 " Web и Enterprise технологиям"));
-        sections.put(SectionType.PERSONAL, new Section("Аналитический склад ума, сильная логика, креативность, инициативность. " +
+        sections.put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. " +
                 "Пурист кода и архитектуры. "));
 
         //Достижения
@@ -52,7 +53,7 @@ public class ResumeTestData {
         achievementsBullets.add("Реализация протоколов по приему платежей всех основных платежных системы России" +
                 " (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
 
-        sections.put(SectionType.ACHIEVEMENT, new BulletsSection("", achievementsBullets));
+        sections.put(SectionType.ACHIEVEMENT, new BulletsSection(achievementsBullets));
 
 
         //Квалификация
@@ -80,18 +81,18 @@ public class ResumeTestData {
                 " архитектурных шаблонов, UML, функционального программирования ");
         qualificaationBullets.add("Родной русский, английский \"upper intermediate\"");
 
-        sections.put(SectionType.QUALIFICATIONS, new BulletsSection("", qualificaationBullets));
+        sections.put(SectionType.QUALIFICATIONS, new BulletsSection(qualificaationBullets));
 
         //Опыт работы
 
         List<Organization> experienceList = new ArrayList<>();
-        Section experience = new HistorySection("", experienceList);
+        Section experience = new OrganizationSection(experienceList);
         try {
             experienceList.add(new Organization
                     (new WebLink("Java Online Projects", new URL("http://javaops.ru/")),
                             YearMonth.of(2013, 10),
                             YearMonth.now(),
-                            new Section("Проектирование и разработка онлайн платформы управления проектами Wrike " +
+                            new TextSection("Проектирование и разработка онлайн платформы управления проектами Wrike " +
                                     "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная " +
                                     "аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
 
@@ -99,7 +100,7 @@ public class ResumeTestData {
                     (new WebLink("RIT Center"),
                             YearMonth.of(2014, 10),
                             YearMonth.of(2016, 1),
-                            new Section("Организация процесса разработки системы ERP для разных " +
+                            new TextSection("Организация процесса разработки системы ERP для разных " +
                                     "окружений: релизная политика, версионирование, ведение CI (Jenkins), " +
                                     "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, " +
                                     "Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка " +
@@ -113,35 +114,35 @@ public class ResumeTestData {
             e.printStackTrace();
         }
 
-        sections.put(SectionType.EXPERIENCE, new HistorySection("", experienceList));
+        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experienceList));
 
         //Образование
 
         List<Organization> educationList = new ArrayList<>();
-        Section education = new HistorySection("", educationList);
+        Section education = new OrganizationSection(educationList);
         try {
             educationList.add(new Organization
                     (new WebLink("Coursera", new URL("https://www.coursera.org/course/progfun")),
                             YearMonth.of(2013, 3),
                             YearMonth.of(2013, 5),
-                            new Section("\"Functional Programming Principles in Scala\" by Martin Odersky")));
+                            new TextSection("\"Functional Programming Principles in Scala\" by Martin Odersky")));
 
             educationList.add(new Organization
                     (new WebLink("Luxoft", new URL("http://www.luxoft-training.ru/training/catalog/course.html?ID=22366")),
                             YearMonth.of(2011, 3),
                             YearMonth.of(2011, 4),
-                            new Section("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")));
+                            new TextSection("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")));
 
             educationList.add(new Organization
                     (new WebLink("Siemens AG", new URL("http://www.siemens.ru/")),
                             YearMonth.of(2005, 1),
                             YearMonth.of(2005, 4),
-                            new Section("3 месяца обучения мобильным IN сетям (Берлин)")));
+                            new TextSection("3 месяца обучения мобильным IN сетям (Берлин)")));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        sections.put(SectionType.EDUCATION, new HistorySection("", educationList));
+        sections.put(SectionType.EDUCATION, new OrganizationSection(educationList));
 
 
         masterResume.setContacts(contacts);

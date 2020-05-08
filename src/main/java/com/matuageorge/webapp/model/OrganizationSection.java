@@ -3,11 +3,10 @@ package com.matuageorge.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class HistorySection extends Section {
+public class OrganizationSection extends Section {
     private final List<Organization> organizations;
 
-    public HistorySection(String description, List<Organization> organizations) {
-        super(description);
+    public OrganizationSection(List<Organization> organizations) {
         this.organizations = organizations;
     }
 
@@ -17,7 +16,7 @@ public class HistorySection extends Section {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        HistorySection that = (HistorySection) o;
+        OrganizationSection that = (OrganizationSection) o;
 
         return Objects.equals(organizations, that.organizations);
     }

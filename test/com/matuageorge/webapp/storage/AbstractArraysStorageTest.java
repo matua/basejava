@@ -10,7 +10,7 @@ import static com.matuageorge.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.fail;
 
 public abstract class AbstractArraysStorageTest extends AbstractStorageTest {
-    protected AbstractArraysStorageTest(AbstractStorage storage) {
+    protected AbstractArraysStorageTest(Storage storage) {
         super(storage);
     }
 

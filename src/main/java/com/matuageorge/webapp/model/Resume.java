@@ -27,12 +27,24 @@ public class Resume implements Comparable<Resume> {
         this.fullName = fullName;
     }
 
-    public void setContacts(Map<ContactType, String> contacts) {
-        this.contacts = contacts;
+    public String getContact(ContactType type) {
+        return contacts.get(type);
+    }
+
+    public Section getSection(SectionType type) {
+        return sections.get(type);
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
     }
 
     public void setSections(Map<SectionType, Section> sections) {
         this.sections = sections;
+    }
+
+    public void setContacts(Map<ContactType, String> contacts) {
+        this.contacts = contacts;
     }
 
     public String getFullName() {
