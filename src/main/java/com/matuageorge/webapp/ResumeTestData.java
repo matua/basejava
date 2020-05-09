@@ -161,7 +161,7 @@ public class ResumeTestData {
 
     }
 
-    public Resume returnTestResume() {
+    public static Resume returnTestResume() {
         return masterResume;
     }
 }
