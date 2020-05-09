@@ -6,6 +6,7 @@ import com.matuageorge.webapp.model.Resume;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,17 +67,16 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> innerGetAllSorted() {
-        Objects.requireNonNull(directory, "directory must not be null");
-        List<Resume> listOfResumes = new ArrayList<>();
-        isFileEmpty(directory);
-        for (File file : directory.listFiles()) {
-            try {
-                listOfResumes.add(fileToResume(file));
-            } catch (IOException e) {
-                throw new StorageException("File does not exist", file.getName());
-            }
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error", null);
         }
-        return listOfResumes;
+        List<Resume> list = new ArrayList<>(files.length);
+        for (File file : files) {
+            list.add(innerGet(file));
+        }
+        Collections.sort(list);
+        return list;
     }
 
     @Override

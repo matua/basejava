@@ -11,7 +11,7 @@ public class ResumeTestData {
     private static final Resume masterResume;
 
     static {
-        masterResume = new Resume("new_uuid", "Григорий Кислин");
+        masterResume = new Resume("uuid_1", "Gregory Kislin");
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
