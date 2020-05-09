@@ -1,5 +1,6 @@
 package com.matuageorge.webapp.storage;
 
+import com.matuageorge.webapp.ResumeTestData;
 import com.matuageorge.webapp.exception.ExistStorageException;
 import com.matuageorge.webapp.exception.NotExistStorageException;
 import com.matuageorge.webapp.model.Resume;
@@ -15,14 +16,19 @@ import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
 
-    public static final Resume RESUME_NEW_UUID = new Resume(
-            "new_uuid", "Smith");
+
     public static final String UUID_1 = "uuid_1";
-    public static final Resume RESUME1 = new Resume(UUID_1, "Ivanov");
+    public static final Resume RESUME1 = ResumeTestData.returnTestResume();
+
     public static final String UUID_2 = "uuid_2";
     public static final Resume RESUME2 = new Resume(UUID_2, "Matua");
+
     public static final String UUID_3 = "uuid_3";
     public static final Resume RESUME3 = new Resume(UUID_3, "Petrov");
+
+    public static final Resume RESUME_NEW_UUID = new Resume(
+            "new_uuid", "Smith");
+
     protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
@@ -31,6 +37,7 @@ public abstract class AbstractStorageTest {
 
     @Before
     public void setUp() {
+        System.out.println(RESUME1);
         storage.clear();
         storage.save(RESUME1);
         storage.save(RESUME2);

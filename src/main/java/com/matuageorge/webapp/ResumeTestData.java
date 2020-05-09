@@ -8,10 +8,10 @@ import java.time.YearMonth;
 import java.util.*;
 
 public class ResumeTestData {
-    private static Resume masterResume;
+    private static final Resume masterResume;
 
-    public static void main(String[] args) {
-        masterResume = new Resume("Григорий Кислин");
+    static {
+        masterResume = new Resume("new_uuid", "Григорий Кислин");
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
@@ -155,6 +155,10 @@ public class ResumeTestData {
 
         masterResume.setContacts(contacts);
         masterResume.setSections(sections);
+
+    }
+
+    public static void main(String[] args) {
 
 
         System.out.println(masterResume);

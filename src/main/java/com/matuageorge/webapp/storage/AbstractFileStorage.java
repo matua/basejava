@@ -33,32 +33,29 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             doWrite(resume, file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("IO error", resume.getUuid(), e);
         }
     }
 
     @Override
     protected void innerSave(Resume resume, File file) {
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
-        }
         innerUpdate(resume, file);
     }
 
     @Override
     protected void innerDelete(File file) {
-        if (file.exists()) {
-            file.delete();
-        } else {
+        if (!file.delete()) {
             throw new StorageException("File does not exist", file.getName());
         }
     }
 
     @Override
     protected Resume innerGet(File file) {
-        return fileToResume(file);
+        try {
+            return fileToResume(file);
+        } catch (IOException e) {
+            throw new StorageException("File does not exist", file.getName(), e);
+        }
     }
 
 
@@ -73,14 +70,17 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         List<Resume> listOfResumes = new ArrayList<>();
         isFileEmpty(directory);
         for (File file : directory.listFiles()) {
-            listOfResumes.add(fileToResume(file));
+            try {
+                listOfResumes.add(fileToResume(file));
+            } catch (IOException e) {
+                throw new StorageException("File does not exist", file.getName());
+            }
         }
         return listOfResumes;
     }
 
     @Override
     public void clear() {
-        Objects.requireNonNull(directory, "directory must not be null");
         isFileEmpty(directory);
         for (File file : directory.listFiles()) {
             file.delete();
@@ -89,14 +89,13 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        Objects.requireNonNull(directory, "directory must not be null");
         isFileEmpty(directory);
         return directory.listFiles().length;
     }
 
     protected abstract void doWrite(Resume resume, File file) throws IOException;
 
-    protected abstract Resume fileToResume(File file);
+    protected abstract Resume fileToResume(File file) throws IOException;
 
     private void isFileEmpty(File directory) {
         try {
