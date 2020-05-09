@@ -1,5 +1,7 @@
 package com.matuageorge.webapp;
 
+import com.matuageorge.webapp.exception.StorageException;
+
 import java.io.File;
 import java.util.Objects;
 
@@ -11,6 +13,12 @@ public class RecursiveSearch {
 
     public static void recursiveSearch(File file) {
         Objects.requireNonNull(file, "directory must not be null");
+        try {
+            File[] listOfFiles = file.listFiles();
+        } catch (NullPointerException e) {
+            throw new StorageException("Directory is empty", file.getName());
+        }
+
         for (File f : file.listFiles()) {
             if (f.isDirectory()) {
                 recursiveSearch(f);

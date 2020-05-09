@@ -7,9 +7,9 @@ import java.util.Objects;
 public class Organization {
     private WebLink webLink;
     private Map<YearMonth, YearMonth> period;
-    private Section description;
+    private AbstractSection description;
 
-    public Organization(WebLink webLink, Map<YearMonth, YearMonth> period, Section description) {
+    public Organization(WebLink webLink, Map<YearMonth, YearMonth> period, AbstractSection description) {
         this.webLink = webLink;
         this.period = period;
         this.description = description;
@@ -31,11 +31,11 @@ public class Organization {
         this.period = period;
     }
 
-    public Section getDescription() {
+    public AbstractSection getDescription() {
         return description;
     }
 
-    public void setDescription(Section description) {
+    public void setDescription(AbstractSection description) {
         this.description = description;
     }
 

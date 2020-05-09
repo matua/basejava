@@ -71,6 +71,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> innerGetAllSorted() {
         Objects.requireNonNull(directory, "directory must not be null");
         List<Resume> listOfResumes = new ArrayList<>();
+        isFileEmpty(directory);
         for (File file : directory.listFiles()) {
             listOfResumes.add(fileToResume(file));
         }
@@ -80,6 +81,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         Objects.requireNonNull(directory, "directory must not be null");
+        isFileEmpty(directory);
         for (File file : directory.listFiles()) {
             file.delete();
         }
@@ -88,10 +90,19 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public int size() {
         Objects.requireNonNull(directory, "directory must not be null");
+        isFileEmpty(directory);
         return directory.listFiles().length;
     }
 
     protected abstract void doWrite(Resume resume, File file) throws IOException;
 
     protected abstract Resume fileToResume(File file);
+
+    private void isFileEmpty(File directory) {
+        try {
+            File[] listOfFiles = directory.listFiles();
+        } catch (NullPointerException e) {
+            throw new StorageException("Directory is empty", directory.getName());
+        }
+    }
 }

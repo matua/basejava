@@ -3,7 +3,7 @@ package com.matuageorge.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class BulletsSection extends Section {
+public class BulletsSection extends AbstractSection {
     private final List<String> bullets;
 
     public BulletsSection(List<String> bullets) {

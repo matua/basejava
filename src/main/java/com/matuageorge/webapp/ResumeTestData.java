@@ -8,8 +8,10 @@ import java.time.YearMonth;
 import java.util.*;
 
 public class ResumeTestData {
+    private static Resume masterResume;
+
     public static void main(String[] args) {
-        Resume masterResume = new Resume("Григорий Кислин");
+        masterResume = new Resume("Григорий Кислин");
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
@@ -21,7 +23,7 @@ public class ResumeTestData {
         contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
         contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
-        Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+        Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
         sections.put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java" +
                 " Web и Enterprise технологиям"));
@@ -83,7 +85,7 @@ public class ResumeTestData {
         //Опыт работы
 
         List<Organization> experienceList = new ArrayList<>();
-        Section experience = new OrganizationSection(experienceList);
+        AbstractSection experience = new OrganizationSection(experienceList);
         Map<YearMonth, YearMonth> period1 = new HashMap<>();
         Map<YearMonth, YearMonth> period2 = new HashMap<>();
 
@@ -119,7 +121,7 @@ public class ResumeTestData {
         //Образование
 
         List<Organization> educationList = new ArrayList<>();
-        Section education = new OrganizationSection(educationList);
+        AbstractSection education = new OrganizationSection(educationList);
 
         Map<YearMonth, YearMonth> educationPeriod1 = new HashMap<>();
         Map<YearMonth, YearMonth> educationPeriod2 = new HashMap<>();
@@ -157,5 +159,9 @@ public class ResumeTestData {
 
         System.out.println(masterResume);
 
+    }
+
+    public Resume returnTestResume() {
+        return masterResume;
     }
 }
