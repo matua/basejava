@@ -5,7 +5,10 @@ import com.matuageorge.webapp.model.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.YearMonth;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 public class ResumeTestData {
     private static final Resume masterResume;
@@ -86,22 +89,27 @@ public class ResumeTestData {
 
         List<Organization> experienceList = new ArrayList<>();
         AbstractSection experience = new OrganizationSection(experienceList);
-        Map<YearMonth, YearMonth> period1 = new HashMap<>();
-        Map<YearMonth, YearMonth> period2 = new HashMap<>();
 
-        period1.put(YearMonth.of(2013, 10), YearMonth.now());
-        period2.put(YearMonth.of(2014, 10), YearMonth.of(2016, 1));
+        Organization.Position date11 = new Organization.Position(
+                YearMonth.of(2013, 10),
+                YearMonth.now());
 
+        Organization.Position date21 = new Organization.Position(
+                YearMonth.of(2014, 10),
+                YearMonth.of(2016, 1));
+        List<Organization.Position> dates1 = new ArrayList<>();
+        List<Organization.Position> dates2 = new ArrayList<>();
+        dates2.add(date21);
         try {
             experienceList.add(new Organization
-                    (new WebLink("Java Online Projects", new URL("http://javaops.ru/")), period1,
+                    (new WebLink("Java Online Projects", new URL("http://javaops.ru/")), dates1,
                             new TextSection("Проектирование и разработка онлайн платформы управления проектами Wrike " +
                                     "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная " +
                                     "аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
 
             experienceList.add(new Organization
                     (new WebLink("RIT Center"),
-                            period2,
+                            dates2,
                             new TextSection("Организация процесса разработки системы ERP для разных " +
                                     "окружений: релизная политика, версионирование, ведение CI (Jenkins), " +
                                     "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, " +
@@ -123,28 +131,39 @@ public class ResumeTestData {
         List<Organization> educationList = new ArrayList<>();
         AbstractSection education = new OrganizationSection(educationList);
 
-        Map<YearMonth, YearMonth> educationPeriod1 = new HashMap<>();
-        Map<YearMonth, YearMonth> educationPeriod2 = new HashMap<>();
+        Organization.Position date31 = new Organization.Position(
+                YearMonth.of(2011, 3),
+                YearMonth.of(2011, 4));
 
-        educationPeriod1.put(YearMonth.of(2011, 3), YearMonth.of(2011, 4));
-        educationPeriod2.put(YearMonth.of(2000, 1), YearMonth.of(2002, 4));
-        educationPeriod2.put(YearMonth.of(2005, 1), YearMonth.of(2005, 4));
+        Organization.Position date41 = new Organization.Position(
+                YearMonth.of(2000, 1),
+                YearMonth.of(2002, 4));
+        Organization.Position date42 = new Organization.Position(
+                YearMonth.of(2005, 1),
+                YearMonth.of(2005, 4));
+
+        List<Organization.Position> dates3 = new ArrayList<>();
+        List<Organization.Position> dates4 = new ArrayList<>();
+
+        dates3.add(date31);
+        dates4.add(date41);
+        dates4.add(date42);
 
 
         try {
             educationList.add(new Organization
                     (new WebLink("Coursera", new URL("https://www.coursera.org/course/progfun")),
-                            educationPeriod1,
+                            dates3,
                             new TextSection("\"Functional Programming Principles in Scala\" by Martin Odersky")));
 
             educationList.add(new Organization
                     (new WebLink("Luxoft", new URL("http://www.luxoft-training.ru/training/catalog/course.html?ID=22366")),
-                            educationPeriod1,
+                            dates4,
                             new TextSection("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")));
 
             educationList.add(new Organization
                     (new WebLink("Siemens AG", new URL("http://www.siemens.ru/")),
-                            educationPeriod2,
+                            dates4,
                             new TextSection("3 месяца обучения мобильным IN сетям (Берлин)")));
         } catch (MalformedURLException e) {
             e.printStackTrace();
