@@ -8,6 +8,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-
+    protected static final File STORAGE_DIR = new File("/Users/matua/GoogleDrive/Private/Обучение/Programming/Java/JavaBase/basejava/src/main/java/com/matuageorge/Resumes");
 
     public static final Resume FILE_RESUME = ResumeTestData.returnTestResume();
 
@@ -57,6 +58,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume resume = new Resume(FILE_RESUME.getUuid(), "Григорий Кислин");
         storage.update(resume);
+        assertSame(resume, storage.get(FILE_RESUME.getUuid()));
         assertSame(resume, storage.get(FILE_RESUME.getUuid()));
     }
 

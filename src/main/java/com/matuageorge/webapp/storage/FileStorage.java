@@ -3,17 +3,19 @@ package com.matuageorge.webapp.storage;
 import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private final File directory;
+    private final ObjectstreamSerialization objectstreamSerialization;
 
-    protected AbstractFileStorage(File directory) {
+    protected FileStorage(File directory, ObjectstreamSerialization objectstreamSerialization) {
+        this.objectstreamSerialization = objectstreamSerialization;
+
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + "is not a directory");
@@ -32,7 +34,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void innerUpdate(Resume resume, File file) {
         try {
-            doWrite(resume, file);
+            objectstreamSerialization.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("IO error", resume.getUuid(), e);
         }
@@ -53,9 +55,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume innerGet(File file) {
         try {
-            return fileToResume(file);
+            return objectstreamSerialization.fileToResume(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("File does not exist", file.getName(), e);
+            throw new StorageException("File read error", file.getName(), e);
         }
     }
 
@@ -69,7 +71,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> innerGetAllSorted() {
         File[] files = directory.listFiles();
         if (files == null) {
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
         List<Resume> list = new ArrayList<>(files.length);
         for (File file : files) {
@@ -81,27 +83,16 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        isFileEmpty(directory);
-        for (File file : directory.listFiles()) {
-            file.delete();
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                innerDelete(file);
+            }
         }
     }
 
     @Override
     public int size() {
-        isFileEmpty(directory);
-        return directory.listFiles().length;
-    }
-
-    protected abstract void doWrite(Resume resume, File file) throws IOException;
-
-    protected abstract Resume fileToResume(File file) throws IOException;
-
-    private void isFileEmpty(File directory) {
-        try {
-            File[] listOfFiles = directory.listFiles();
-        } catch (NullPointerException e) {
-            throw new StorageException("Directory is empty", directory.getName());
-        }
+        return Objects.requireNonNull(directory.listFiles()).length;
     }
 }

@@ -1,29 +1,29 @@
 package com.matuageorge.webapp;
 
-import com.matuageorge.webapp.exception.StorageException;
-
 import java.io.File;
-import java.util.Objects;
 
 public class RecursiveSearch {
+
+    private static int step;
+    private static StringBuilder tab;
+
     public static void main(String[] args) {
-        File file = new File("src/main/java/com/matuageorge/webapp");
-        recursiveSearch(file);
+        File file = new File("/Users/matua/GoogleDrive/Private/Обучение/Programming/Java/JavaBase/basejava/src/main/java/com/matuageorge");
+        recursivePrint(file, "");
     }
 
-    public static void recursiveSearch(File file) {
-        Objects.requireNonNull(file, "directory must not be null");
-        try {
-            File[] listOfFiles = file.listFiles();
-        } catch (NullPointerException e) {
-            throw new StorageException("Directory is empty", file.getName());
-        }
+    public static void recursivePrint(File dir, String tab) {
+        File[] files = dir.listFiles();
 
-        for (File f : file.listFiles()) {
-            if (f.isDirectory()) {
-                recursiveSearch(f);
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    System.out.println(tab + file.getName());
+                } else if (file.isDirectory()) {
+                    System.out.println(tab + file.getName());
+                    recursivePrint(file, tab + "\t");
+                }
             }
-            System.out.println("\t" + f.getName());
         }
     }
 }

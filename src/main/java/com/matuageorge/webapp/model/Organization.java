@@ -1,10 +1,13 @@
 package com.matuageorge.webapp.model;
 
+import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization {
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private WebLink webLink;
     private List<Position> positions;
     private AbstractSection description;
@@ -65,7 +68,8 @@ public class Organization {
         return result;
     }
 
-    public static class Position {
+    public static class Position implements Serializable {
+
         private final YearMonth startDate;
         private final YearMonth endDate;
 

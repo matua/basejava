@@ -1,9 +1,12 @@
 package com.matuageorge.webapp.model;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Objects;
 
-public class WebLink {
+public class WebLink implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final String name;
     private URL url;
 
