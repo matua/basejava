@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class BulletsSection extends AbstractSection {
     private final List<String> bullets;
-
     public BulletsSection(List<String> bullets) {
         this.bullets = bullets;
     }
@@ -14,9 +13,7 @@ public class BulletsSection extends AbstractSection {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         BulletsSection that = (BulletsSection) o;
-
         return Objects.equals(bullets, that.bullets);
     }
 
@@ -28,11 +25,9 @@ public class BulletsSection extends AbstractSection {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-
         for (String bullet : bullets) {
             result.append("\t• ").append(bullet).append("\n");
         }
-
         return result.toString();
     }
 }

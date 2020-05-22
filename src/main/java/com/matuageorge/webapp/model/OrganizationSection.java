@@ -5,9 +5,7 @@ import java.util.Objects;
 
 public class OrganizationSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
-
     private final List<Organization> organizations;
-
     public OrganizationSection(List<Organization> organizations) {
         this.organizations = organizations;
     }
@@ -17,9 +15,7 @@ public class OrganizationSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-
         OrganizationSection that = (OrganizationSection) o;
-
         return Objects.equals(organizations, that.organizations);
     }
 
@@ -33,7 +29,6 @@ public class OrganizationSection extends AbstractSection {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-
         for (Organization org : organizations) {
             result.append(org);
         }

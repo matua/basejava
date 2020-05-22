@@ -13,7 +13,6 @@ public abstract class AbstractArraysStorageTest extends AbstractStorageTest {
     protected AbstractArraysStorageTest(Storage storage) {
         super(storage);
     }
-
     //https://www.javaguides.net/2018/08/junit-assertfail-method-example.html
     @Test(expected = StorageException.class)
     public void storageOverflow() {

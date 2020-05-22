@@ -17,20 +17,14 @@ import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = new File("/Users/matua/GoogleDrive/Private/Обучение/Programming/Java/JavaBase/basejava/src/main/java/com/matuageorge/Resumes");
-
     public static final Resume FILE_RESUME = ResumeTestData.returnTestResume();
-
     public static final String UUID_2 = "uuid_2";
     public static final Resume RESUME2 = new Resume(UUID_2, "Matua");
-
     public static final String UUID_3 = "uuid_3";
     public static final Resume RESUME3 = new Resume(UUID_3, "Petrov");
-
     public static final Resume RESUME_NEW_UUID = new Resume(
             "new_uuid", "Smith");
-
     protected final Storage storage;
-
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }

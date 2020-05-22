@@ -12,10 +12,8 @@ import java.util.Objects;
 public class FileStorage extends AbstractStorage<File> {
     private final File directory;
     private final ObjectstreamSerialization objectstreamSerialization;
-
     protected FileStorage(File directory, ObjectstreamSerialization objectstreamSerialization) {
         this.objectstreamSerialization = objectstreamSerialization;
-
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + "is not a directory");

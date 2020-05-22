@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
-
     private WebLink webLink;
     private List<Position> positions;
     private AbstractSection description;
@@ -49,12 +48,9 @@ public class Organization implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Organization that = (Organization) o;
-
         if (!Objects.equals(webLink, that.webLink)) return false;
         if (!Objects.equals(positions, that.positions)) return false;
         return Objects.equals(description, that.description);
@@ -69,10 +65,8 @@ public class Organization implements Serializable {
     }
 
     public static class Position implements Serializable {
-
         private final YearMonth startDate;
         private final YearMonth endDate;
-
         public Position(YearMonth startDate, YearMonth endDate) {
             Objects.requireNonNull(startDate, "startDate must not be null");
             Objects.requireNonNull(endDate, "endDate must not be null");
@@ -94,7 +88,6 @@ public class Organization implements Serializable {
         }
     }
 }
-
 
 
 

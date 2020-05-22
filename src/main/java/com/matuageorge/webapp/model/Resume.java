@@ -11,12 +11,10 @@ import java.util.UUID;
  */
 public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
-
     private final String uuid;
     private final String fullName;
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
-
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -59,9 +57,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Resume resume = (Resume) o;
-
         if (!Objects.equals(uuid, resume.uuid)) return false;
         if (!Objects.equals(fullName, resume.fullName)) return false;
         if (!Objects.equals(contacts, resume.contacts)) return false;
@@ -87,16 +83,13 @@ public class Resume implements Comparable<Resume>, Serializable {
     public String toString() {
         StringBuilder result = new StringBuilder();
         StringBuilder contactsBuilder = new StringBuilder();
-
         for (Map.Entry<ContactType, String> contact : contacts.entrySet()) {
             contactsBuilder.append(contact.getKey())
                     .append(":")
                     .append(contact.getValue())
                     .append("\n");
         }
-
         StringBuilder sectionBuilder = new StringBuilder();
-
         for (Map.Entry<SectionType, AbstractSection> section : sections.entrySet()) {
             sectionBuilder
                     .append(section.getKey().getTitle())
@@ -104,7 +97,6 @@ public class Resume implements Comparable<Resume>, Serializable {
                     .append(section.getValue())
                     .append("\n");
         }
-
         return result.append(uuid).append("\n").append(fullName).append("\n\n")
                 .append(contactsBuilder)
                 .append("\n")
