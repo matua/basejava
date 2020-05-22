@@ -2,10 +2,10 @@ package com.matuageorge.webapp.storage;
 
 import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
+import com.matuageorge.webapp.service.ObjectstreamSerialization;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
@@ -29,7 +30,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getKey(String uuid) {
-        return new File(directory.toFile(), uuid).toPath();
+        return directory.resolve(uuid);
     }
 
     @Override
@@ -76,29 +77,24 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> innerGetAllSorted() {
-        try {
-            return Files.list(directory)
-                    .map(this::innerGet)
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return returnFilesList()
+                .map(this::innerGet)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::innerDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", e);
-        }
+        returnFilesList().forEach(this::innerDelete);
     }
 
     @Override
     public int size() {
+        return (int) returnFilesList().count();
+    }
+
+    protected Stream<Path> returnFilesList() {
         try {
-            return (int) Files.list(directory).count();
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("Directory read error", e);
         }

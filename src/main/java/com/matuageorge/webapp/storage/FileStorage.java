@@ -2,6 +2,7 @@ package com.matuageorge.webapp.storage;
 
 import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
+import com.matuageorge.webapp.service.ObjectstreamSerialization;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Objects;
 public class FileStorage extends AbstractStorage<File> {
     private final File directory;
     private final ObjectstreamSerialization objectstreamSerialization;
+
     protected FileStorage(File directory, ObjectstreamSerialization objectstreamSerialization) {
         this.objectstreamSerialization = objectstreamSerialization;
         Objects.requireNonNull(directory, "directory must not be null");
@@ -40,6 +42,11 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected void innerSave(Resume resume, File file) {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new StorageException("Error creating file " + file.getAbsolutePath(), file.getName(), e);
+        }
         innerUpdate(resume, file);
     }
 
@@ -68,10 +75,8 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> innerGetAllSorted() {
         File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Directory read error");
-        }
-        List<Resume> list = new ArrayList<>(files.length);
+        checkNull(files == null, "Directory read error");
+        List<Resume> list = new ArrayList<>(Objects.requireNonNull(files).length);
         for (File file : files) {
             list.add(innerGet(file));
         }
@@ -82,6 +87,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] files = directory.listFiles();
+        checkNull(files == null, "Directory read error");
         if (files != null) {
             for (File file : files) {
                 innerDelete(file);
@@ -91,6 +97,14 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.listFiles()).length;
+        String[] list = directory.list();
+        checkNull(list == null, "Directory IO error");
+        return Objects.requireNonNull(list).length;
+    }
+
+    protected void checkNull(boolean b, String s) {
+        if (b) {
+            throw new StorageException(s);
+        }
     }
 }

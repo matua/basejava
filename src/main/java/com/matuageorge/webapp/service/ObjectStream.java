@@ -1,4 +1,4 @@
-package com.matuageorge.webapp.storage;
+package com.matuageorge.webapp.service;
 
 import com.matuageorge.webapp.model.Resume;
 
