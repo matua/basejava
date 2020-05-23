@@ -6,7 +6,6 @@ import com.matuageorge.webapp.service.ObjectstreamSerialization;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,7 +79,6 @@ public class FileStorage extends AbstractStorage<File> {
         for (File file : files) {
             list.add(innerGet(file));
         }
-        Collections.sort(list);
         return list;
     }
 

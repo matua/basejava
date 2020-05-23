@@ -3,9 +3,10 @@ package com.matuageorge.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class BulletsSection extends AbstractSection {
+public class ListSection extends AbstractSection {
     private final List<String> bullets;
-    public BulletsSection(List<String> bullets) {
+
+    public ListSection(List<String> bullets) {
         this.bullets = bullets;
     }
 
@@ -13,7 +14,7 @@ public class BulletsSection extends AbstractSection {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BulletsSection that = (BulletsSection) o;
+        ListSection that = (ListSection) o;
         return Objects.equals(bullets, that.bullets);
     }
 

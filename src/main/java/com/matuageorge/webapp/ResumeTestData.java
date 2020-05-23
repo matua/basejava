@@ -55,7 +55,7 @@ public class ResumeTestData {
         achievementsBullets.add("Реализация протоколов по приему платежей всех основных платежных системы России" +
                 " (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
 
-        sections.put(SectionType.ACHIEVEMENT, new BulletsSection(achievementsBullets));
+        sections.put(SectionType.ACHIEVEMENT, new ListSection(achievementsBullets));
 
 
         //Квалификация
@@ -83,7 +83,7 @@ public class ResumeTestData {
                 " архитектурных шаблонов, UML, функционального программирования ");
         qualificaationBullets.add("Родной русский, английский \"upper intermediate\"");
 
-        sections.put(SectionType.QUALIFICATIONS, new BulletsSection(qualificaationBullets));
+        sections.put(SectionType.QUALIFICATIONS, new ListSection(qualificaationBullets));
 
         //Опыт работы
 
