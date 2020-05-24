@@ -2,7 +2,7 @@ package com.matuageorge.webapp.storage;
 
 import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
-import com.matuageorge.webapp.service.ObjectstreamSerialization;
+import com.matuageorge.webapp.service.ObjectStreamSerialization;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,9 +17,9 @@ import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
-    private final ObjectstreamSerialization objectstreamSerialization;
+    private final ObjectStreamSerialization objectstreamSerialization;
 
-    protected PathStorage(String dir, ObjectstreamSerialization objectstreamSerialization) {
+    protected PathStorage(String dir, ObjectStreamSerialization objectstreamSerialization) {
         directory = Paths.get(dir);
         this.objectstreamSerialization = objectstreamSerialization;
         Objects.requireNonNull(directory, "directory must not be null");

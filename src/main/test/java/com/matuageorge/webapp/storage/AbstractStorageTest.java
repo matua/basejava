@@ -10,37 +10,37 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("/Users/matua/IdeaProjects/basejava/src/main/resumes");
-    public static final Resume FILE_RESUME = ResumeTestData.returnTestResume();
+    public static final Resume RESUME_1 = ResumeTestData.returnTestResume();
     public static final String UUID_2 = "uuid_2";
-    public static final Resume RESUME2 = new Resume(UUID_2, "Matua");
+    public static final Resume RESUME_2 = new Resume(UUID_2, "Matua");
     public static final String UUID_3 = "uuid_3";
-    public static final Resume RESUME3 = new Resume(UUID_3, "Petrov");
+    public static final Resume RESUME_3 = new Resume(UUID_3, "Petrov");
     public static final Resume RESUME_NEW_UUID = new Resume(
             "new_uuid", "Smith");
+    protected static final File STORAGE_DIR = new File("/Users/matua/IdeaProjects/basejava/src/main/resumes");
     protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
-    @Before
-    public void setUp() {
-        storage.clear();
-        storage.save(FILE_RESUME);
-        storage.save(RESUME2);
-        storage.save(RESUME3);
-    }
-
     @AfterClass
     public static void afterClass() {
         System.out.println("All tests passed!");
+    }
+
+    @Before
+    public void setUp() {
+        storage.clear();
+        storage.save(RESUME_1);
+        storage.save(RESUME_2);
+        storage.save(RESUME_3);
     }
 
     @Test
@@ -51,10 +51,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = new Resume(FILE_RESUME.getUuid(), "Григорий Кислин");
-        storage.update(resume);
-        assertSame(resume, storage.get(FILE_RESUME.getUuid()));
-        assertSame(resume, storage.get(FILE_RESUME.getUuid()));
+        Resume newResume = new Resume(UUID_2, "Matua");
+        storage.update(newResume);
+        assertEquals(newResume, storage.get("uuid_2"));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -71,13 +70,12 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistStorageException.class)
     public void saveExist() {
-        storage.save(FILE_RESUME);
+        storage.save(RESUME_1);
     }
 
     @Test
     public void get() {
-        Resume resume = ResumeTestData.returnTestResume();
-        assertEquals(storage.get(FILE_RESUME.getUuid()), resume);
+        assertEquals(storage.get(RESUME_2.getUuid()), RESUME_2);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -87,9 +85,9 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
-        storage.delete(FILE_RESUME.getUuid());
+        storage.delete(RESUME_1.getUuid());
         assertEquals(2, storage.size());
-        storage.get(FILE_RESUME.getUuid());
+        storage.get(RESUME_1.getUuid());
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -100,8 +98,11 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> list = storage.getAllSorted();
-        assertEquals(3, list.size());
-        assertEquals(list, Arrays.asList(FILE_RESUME, RESUME2, RESUME3));
+        List<Resume> listToCompare = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        Collections.sort(listToCompare);
+        for (int i = 0; i < list.size(); i++) {
+            assertEquals(list.get(i), listToCompare.get(i));
+        }
     }
 
     @Test

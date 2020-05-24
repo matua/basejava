@@ -5,7 +5,7 @@ import com.matuageorge.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectstreamSerialization implements ObjectStream {
+public class ObjectStreamSerialization implements ObjectStream {
     @Override
     public void doWrite(Resume resume, BufferedOutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
