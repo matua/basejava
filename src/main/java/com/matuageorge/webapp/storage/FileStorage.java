@@ -44,7 +44,7 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("Error creating file " + file.getAbsolutePath(), file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
         innerUpdate(resume, file);
     }
@@ -74,8 +74,10 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> innerGetAllSorted() {
         File[] files = directory.listFiles();
-        checkNull(files == null, "Directory read error");
-        List<Resume> list = new ArrayList<>(Objects.requireNonNull(files).length);
+        if (files == null) {
+            throw new StorageException("Directory read error");
+        }
+        List<Resume> list = new ArrayList<>(files.length);
         for (File file : files) {
             list.add(innerGet(file));
         }

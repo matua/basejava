@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("/Users/matua/GoogleDrive/Private/Обучение/Programming/Java/JavaBase/basejava/src/main/java/com/matuageorge/Resumes");
+    protected static final File STORAGE_DIR = new File("/Users/matua/IdeaProjects/basejava/src/main/resumes");
     public static final Resume FILE_RESUME = ResumeTestData.returnTestResume();
     public static final String UUID_2 = "uuid_2";
     public static final Resume RESUME2 = new Resume(UUID_2, "Matua");
@@ -25,6 +25,7 @@ public abstract class AbstractStorageTest {
     public static final Resume RESUME_NEW_UUID = new Resume(
             "new_uuid", "Smith");
     protected final Storage storage;
+
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
@@ -73,7 +74,6 @@ public abstract class AbstractStorageTest {
         storage.save(FILE_RESUME);
     }
 
-
     @Test
     public void get() {
         Resume resume = ResumeTestData.returnTestResume();
@@ -99,9 +99,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        List<Resume> storageToCompare = storage.getAllSorted();
-        assertEquals(3, storageToCompare.size());
-        assertEquals(Arrays.asList(FILE_RESUME, RESUME2, RESUME3), storageToCompare);
+        List<Resume> list = storage.getAllSorted();
+        assertEquals(3, list.size());
+        assertEquals(list, Arrays.asList(FILE_RESUME, RESUME2, RESUME3));
     }
 
     @Test

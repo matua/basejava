@@ -88,7 +88,3 @@ public class Organization implements Serializable {
         }
     }
 }
-
-
-
-

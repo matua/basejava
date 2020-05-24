@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
-
-
     /*index of the search key, if it is contained in the array within the specified range; otherwise,
             (-(insertion point) - 1). The insertion point is defined as the point at which the key would be
             inserted into the array: the index of the first element in the range greater than the key,
