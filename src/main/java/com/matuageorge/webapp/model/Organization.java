@@ -51,17 +51,14 @@ public class Organization implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        if (!Objects.equals(webLink, that.webLink)) return false;
-        if (!Objects.equals(positions, that.positions)) return false;
-        return Objects.equals(description, that.description);
+        return Objects.equals(webLink, that.webLink) &&
+                Objects.equals(positions, that.positions) &&
+                Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        int result = webLink != null ? webLink.hashCode() : 0;
-        result = 31 * result + (positions != null ? positions.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
+        return Objects.hash(webLink, positions, description);
     }
 
     public static class Position implements Serializable {
@@ -80,6 +77,24 @@ public class Organization implements Serializable {
 
         public YearMonth getEndDate() {
             return endDate;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Position position = (Position) o;
+
+            if (!Objects.equals(startDate, position.startDate)) return false;
+            return Objects.equals(endDate, position.endDate);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = startDate.hashCode();
+            result = 31 * result + endDate.hashCode();
+            return result;
         }
 
         @Override

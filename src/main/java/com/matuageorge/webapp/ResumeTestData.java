@@ -59,31 +59,31 @@ public class ResumeTestData {
 
 
         //Квалификация
-        List<String> qualificaationBullets = new ArrayList<>();
+        List<String> qualificationBullets = new ArrayList<>();
 
-        qualificaationBullets.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2 ");
-        qualificaationBullets.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce ");
-        qualificaationBullets.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle");
-        qualificaationBullets.add("MySQL, SQLite, MS SQL, HSQLDB");
-        qualificaationBullets.add("Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy, ");
-        qualificaationBullets.add("XML/XSD/XSLT, SQL, C/C++, Unix shell scripts");
-        qualificaationBullets.add("Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis," +
+        qualificationBullets.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2 ");
+        qualificationBullets.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce ");
+        qualificationBullets.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle");
+        qualificationBullets.add("MySQL, SQLite, MS SQL, HSQLDB");
+        qualificationBullets.add("Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy, ");
+        qualificationBullets.add("XML/XSD/XSLT, SQL, C/C++, Unix shell scripts");
+        qualificationBullets.add("Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis," +
                 " Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, " +
                 "ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements). ");
-        qualificaationBullets.add("Python: Django.");
-        qualificaationBullets.add("JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js ");
-        qualificaationBullets.add("Scala: SBT, Play2, Specs2, Anorm, Spray, Akka ");
-        qualificaationBullets.add("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, " +
+        qualificationBullets.add("Python: Django.");
+        qualificationBullets.add("JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js ");
+        qualificationBullets.add("Scala: SBT, Play2, Specs2, Anorm, Spray, Akka ");
+        qualificationBullets.add("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, " +
                 "StAX, SAX, DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, " +
                 "BPMN2, LDAP, OAuth1, OAuth2, JWT. ");
-        qualificaationBullets.add("Инструменты: Maven + plugin development, Gradle, настройка Ngnix");
-        qualificaationBullets.add("администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, " +
+        qualificationBullets.add("Инструменты: Maven + plugin development, Gradle, настройка Ngnix");
+        qualificationBullets.add("администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, " +
                 "Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer.");
-        qualificaationBullets.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования," +
+        qualificationBullets.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования," +
                 " архитектурных шаблонов, UML, функционального программирования ");
-        qualificaationBullets.add("Родной русский, английский \"upper intermediate\"");
+        qualificationBullets.add("Родной русский, английский \"upper intermediate\"");
 
-        sections.put(SectionType.QUALIFICATIONS, new ListSection(qualificaationBullets));
+        sections.put(SectionType.QUALIFICATIONS, new ListSection(qualificationBullets));
 
         //Опыт работы
 

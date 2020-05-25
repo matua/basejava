@@ -15,16 +15,15 @@ public class OrganizationSection extends AbstractSection {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+
         OrganizationSection that = (OrganizationSection) o;
+
         return Objects.equals(organizations, that.organizations);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (organizations != null ? organizations.hashCode() : 0);
-        return result;
+        return organizations != null ? organizations.hashCode() : 0;
     }
 
     @Override

@@ -68,4 +68,5 @@ public abstract class AbstractStorage<SK> implements Storage {
     protected abstract boolean isExist(SK key);
 
     protected abstract List<Resume> innerGetAllSorted();
+
 }
