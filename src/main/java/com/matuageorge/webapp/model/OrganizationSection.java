@@ -1,14 +1,20 @@
 package com.matuageorge.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OrganizationSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
-    private final List<Organization> organizations;
+    private List<Organization> organizations;
 
     public OrganizationSection(List<Organization> organizations) {
         this.organizations = organizations;
+    }
+
+    public OrganizationSection() {
     }
 
     @Override

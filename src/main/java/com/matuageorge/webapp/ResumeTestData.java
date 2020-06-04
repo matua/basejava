@@ -102,13 +102,13 @@ public class ResumeTestData {
         dates2.add(date21);
         try {
             experienceList.add(new Organization
-                    (new WebLink("Java Online Projects", new URL("http://javaops.ru/")), dates1,
+                    (new Link("Java Online Projects", new URL("http://javaops.ru/")), dates1,
                             new TextSection("Проектирование и разработка онлайн платформы управления проектами Wrike " +
                                     "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная " +
                                     "аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
 
             experienceList.add(new Organization
-                    (new WebLink("RIT Center"),
+                    (new Link("RIT Center"),
                             dates2,
                             new TextSection("Организация процесса разработки системы ERP для разных " +
                                     "окружений: релизная политика, версионирование, ведение CI (Jenkins), " +
@@ -152,17 +152,17 @@ public class ResumeTestData {
 
         try {
             educationList.add(new Organization
-                    (new WebLink("Coursera", new URL("https://www.coursera.org/course/progfun")),
+                    (new Link("Coursera", new URL("https://www.coursera.org/course/progfun")),
                             dates3,
                             new TextSection("\"Functional Programming Principles in Scala\" by Martin Odersky")));
 
             educationList.add(new Organization
-                    (new WebLink("Luxoft", new URL("http://www.luxoft-training.ru/training/catalog/course.html?ID=22366")),
+                    (new Link("Luxoft", new URL("http://www.luxoft-training.ru/training/catalog/course.html?ID=22366")),
                             dates4,
                             new TextSection("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")));
 
             educationList.add(new Organization
-                    (new WebLink("Siemens AG", new URL("http://www.siemens.ru/")),
+                    (new Link("Siemens AG", new URL("http://www.siemens.ru/")),
                             dates4,
                             new TextSection("3 месяца обучения мобильным IN сетям (Берлин)")));
         } catch (MalformedURLException e) {

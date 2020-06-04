@@ -1,24 +1,24 @@
-package com.matuageorge.webapp.service;
+package com.matuageorge.webapp.storage.serializer;
 
 import com.matuageorge.webapp.exception.StorageException;
 import com.matuageorge.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamSerialization implements ObjectStream {
+public class ObjectStreamSerializer implements StreamSerializer {
     @Override
-    public void doWrite(Resume resume, BufferedOutputStream os) throws IOException {
+    public void doWrite(Resume r, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
-            oos.writeObject(resume);
+            oos.writeObject(r);
         }
     }
 
     @Override
-    public Resume fileToResume(BufferedInputStream is) throws IOException {
+    public Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
-            throw new StorageException("Read resume error", null, e);
+            throw new StorageException("Error read resume", null, e);
         }
     }
 }

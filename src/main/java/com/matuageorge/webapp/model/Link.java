@@ -1,21 +1,27 @@
 package com.matuageorge.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.Objects;
 
-public class WebLink implements Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final String name;
+    private String name;
     private URL url;
 
-    public WebLink(String name, URL url) {
+    public Link(String name, URL url) {
         this.name = name;
         this.url = url;
     }
 
-    public WebLink(String name) {
+    public Link(String name) {
         this.name = name;
+    }
+
+    public Link() {
     }
 
     @Override
@@ -23,10 +29,10 @@ public class WebLink implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WebLink webLink = (WebLink) o;
+        Link link = (Link) o;
 
-        if (!Objects.equals(name, webLink.name)) return false;
-        return Objects.equals(url, webLink.url);
+        if (!Objects.equals(name, link.name)) return false;
+        return Objects.equals(url, link.url);
     }
 
     @Override

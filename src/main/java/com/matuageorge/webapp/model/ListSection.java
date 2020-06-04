@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends AbstractSection {
-    private final List<String> bullets;
+    private List<String> bullets;
 
     public ListSection(List<String> bullets) {
         this.bullets = bullets;
+    }
+
+    public ListSection() {
     }
 
     @Override

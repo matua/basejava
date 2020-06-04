@@ -1,28 +1,37 @@
 package com.matuageorge.webapp.model;
 
+import com.matuageorge.webapp.util.YearMonthAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
-    private WebLink webLink;
+    private Link link;
     private List<Position> positions;
     private AbstractSection description;
 
-    public Organization(WebLink webLink, List<Position> positions, AbstractSection description) {
-        this.webLink = webLink;
+    public Organization(Link link, List<Position> positions, AbstractSection description) {
+        this.link = link;
         this.positions = positions;
         this.description = description;
     }
 
-    public WebLink getWebLink() {
-        return webLink;
+    public Organization() {
     }
 
-    public void setWebLink(WebLink webLink) {
-        this.webLink = webLink;
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
     }
 
     public List<Position> getPositions() {
@@ -43,7 +52,7 @@ public class Organization implements Serializable {
 
     @Override
     public String toString() {
-        return "Organization(" + webLink + "," + positions + "," + description + ')';
+        return "Organization(" + link + "," + positions + "," + description + ')';
     }
 
     @Override
@@ -51,24 +60,31 @@ public class Organization implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return Objects.equals(webLink, that.webLink) &&
+        return Objects.equals(link, that.link) &&
                 Objects.equals(positions, that.positions) &&
                 Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(webLink, positions, description);
+        return Objects.hash(link, positions, description);
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
-        private final YearMonth startDate;
-        private final YearMonth endDate;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth startDate;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth endDate;
+
         public Position(YearMonth startDate, YearMonth endDate) {
             Objects.requireNonNull(startDate, "startDate must not be null");
             Objects.requireNonNull(endDate, "endDate must not be null");
             this.startDate = startDate;
             this.endDate = endDate;
+        }
+
+        public Position() {
         }
 
         public YearMonth getStartDate() {
@@ -92,8 +108,8 @@ public class Organization implements Serializable {
 
         @Override
         public int hashCode() {
-            int result = startDate.hashCode();
-            result = 31 * result + endDate.hashCode();
+            int result = startDate != null ? startDate.hashCode() : 0;
+            result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
             return result;
         }
 
