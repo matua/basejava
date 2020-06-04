@@ -99,6 +99,7 @@ public class ResumeTestData {
                 YearMonth.of(2016, 1));
         List<Organization.Position> dates1 = new ArrayList<>();
         List<Organization.Position> dates2 = new ArrayList<>();
+        dates1.add(date11);
         dates2.add(date21);
         try {
             experienceList.add(new Organization
