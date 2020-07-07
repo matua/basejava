@@ -3,25 +3,35 @@ package com.matuageorge.webapp.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String name;
-    private URL url;
 
-    public Link(String name, URL url) {
+    private String name;
+    private String url;
+
+    public Link() {
+    }
+
+    public Link(String name, String url) {
+        Objects.requireNonNull(name, "name must not be null");
         this.name = name;
         this.url = url;
     }
 
-    public Link(String name) {
-        this.name = name;
+    public String getName() {
+        return name;
     }
 
-    public Link() {
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public String toString() {
+        return name + " - " + url;
     }
 
     @Override
@@ -31,23 +41,15 @@ public class Link implements Serializable {
 
         Link link = (Link) o;
 
-        if (!Objects.equals(name, link.name)) return false;
+        if (!name.equals(link.name)) return false;
         return Objects.equals(url, link.url);
+
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = name.hashCode();
         result = 31 * result + (url != null ? url.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        if (url != null) {
-            return name + " (" + url + ")";
-        } else {
-            return name;
-        }
     }
 }
