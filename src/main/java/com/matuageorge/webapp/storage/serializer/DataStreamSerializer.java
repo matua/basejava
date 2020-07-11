@@ -50,7 +50,28 @@ public class DataStreamSerializer implements StreamSerializer {
             }
             size = dis.readInt();
             for (int i = 0; i < size; i++) {
-                SectionType sectionType = SectionType.valueOf(dis.readUTF());
+                String sectionTypeString = dis.readUTF();
+                SectionType sectionType = null;
+
+                switch (sectionTypeString) {
+                    case "Личные качества":
+                        sectionType = SectionType.PERSONAL;
+                        break;
+                    case "Позиция":
+                        sectionType = SectionType.OBJECTIVE;
+                        break;
+                    case "Достижения":
+                        sectionType = SectionType.ACHIEVEMENT;
+                        break;
+                    case "Квалификация":
+                        sectionType = SectionType.QUALIFICATIONS;
+                        break;
+                    case "Опыт работы":
+                        sectionType = SectionType.EXPERIENCE;
+                        break;
+                    case "Образование":
+                        sectionType = SectionType.EDUCATION;
+                }
                 resume.addSection(sectionType, sectionReader(dis.readUTF(), dis));
             }
             return resume;
