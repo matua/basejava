@@ -94,7 +94,7 @@ public class ResumeTestData {
                 new Organization.Position(2014, Month.OCTOBER, 2016, Month.JANUARY, "Старший разработчик (backend)",
                         "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis," +
                                 " Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
-        experienceOrganizationSectionList.add(new Organization("RIT Center", null,
+        experienceOrganizationSectionList.add(new Organization("RIT Center", "",
                 new Organization.Position(2012, Month.APRIL, 2014, Month.OCTOBER, "Java архитектор",
                         "Организация процесса разработки системы ERP для разных окружений: релизная политика, " +
                                 "версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование " +
@@ -123,14 +123,10 @@ public class ResumeTestData {
                 new Organization.Position(1987, Month.SEPTEMBER, 1993, Month.JULY, "Инженер (программист Fortran, C)", null)));
 
         sections.put(SectionType.EDUCATION, new OrganizationSection(educationOrganizationSectionList));
-
     }
 
     public static void main(String[] args) {
-
-
         System.out.println(masterResume);
-
     }
 
     public static Resume returnTestResume() {

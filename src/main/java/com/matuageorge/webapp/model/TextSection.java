@@ -17,6 +17,11 @@ public class TextSection extends AbstractSection {
         return content;
     }
 
+    public TextSection setContent(String content) {
+        this.content = content;
+        return this;
+    }
+
     @Override
     public String toString() {
         return content;

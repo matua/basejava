@@ -21,7 +21,7 @@ import static com.matuageorge.webapp.util.DateUtil.of;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Link link;
+    private Link homePage;
     private List<Position> positions = new ArrayList<>();
 
     public Organization() {
@@ -31,17 +31,18 @@ public class Organization implements Serializable {
         this(new Link(name, url), Arrays.asList(positions));
     }
 
-    public Organization(Link link, List<Position> positions) {
-        this.link = link;
+    public Organization(Link homePage, List<Position> positions) {
+        this.homePage = homePage;
         this.positions = positions;
     }
 
-    public Link getLink() {
-        return link;
+    public Link getHomePage() {
+        return homePage;
     }
 
-    public void setLink(Link link) {
-        this.link = link;
+
+    public void setHomePage(Link homePage) {
+        this.homePage = homePage;
     }
 
     public List<Position> getPositions() {
@@ -55,7 +56,7 @@ public class Organization implements Serializable {
 
     @Override
     public String toString() {
-        return link + "\n" + positions;
+        return homePage + "\n" + positions;
     }
 
     @Override
@@ -65,13 +66,13 @@ public class Organization implements Serializable {
 
         Organization that = (Organization) o;
 
-        if (!Objects.equals(link, that.link)) return false;
+        if (!Objects.equals(homePage, that.homePage)) return false;
         return Objects.equals(positions, that.positions);
     }
 
     @Override
     public int hashCode() {
-        int result = link != null ? link.hashCode() : 0;
+        int result = homePage != null ? homePage.hashCode() : 0;
         result = 31 * result + (positions != null ? positions.hashCode() : 0);
         return result;
     }
