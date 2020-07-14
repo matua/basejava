@@ -4,7 +4,6 @@ import com.matuageorge.webapp.ResumeTestData;
 import com.matuageorge.webapp.exception.ExistStorageException;
 import com.matuageorge.webapp.exception.NotExistStorageException;
 import com.matuageorge.webapp.model.Resume;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,11 +26,6 @@ public abstract class AbstractStorageTest {
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        System.out.println("All tests passed!");
     }
 
     @Before
@@ -63,7 +57,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void save() {
         storage.save(RESUME_NEW_UUID);
-        assertEquals(storage.get("new_uuid"), RESUME_NEW_UUID);
+        assertEquals(RESUME_NEW_UUID, storage.get("new_uuid"));
         assertEquals(4, storage.size());
     }
 
@@ -74,7 +68,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        assertEquals(storage.get(RESUME_2.getUuid()), RESUME_2);
+        assertEquals(RESUME_2, storage.get(RESUME_2.getUuid()));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -98,7 +92,7 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() {
         List<Resume> list = storage.getAllSorted();
         assertEquals(3, list.size());
-        assertEquals(list, Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
+        assertEquals(Arrays.asList(RESUME_1, RESUME_2, RESUME_3), list);
     }
 
     @Test
