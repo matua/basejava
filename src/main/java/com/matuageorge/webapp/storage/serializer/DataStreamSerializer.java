@@ -152,7 +152,7 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private <E> void writeCollection(Collection<E> collection, DataOutputStream ops, DataStreamSerializer.ElementWriter<E> elementWriter) throws IOException {
+    private <E> void writeCollection(Collection<E> collection, DataOutputStream ops, ElementWriter<E> elementWriter) throws IOException {
         ops.writeInt(collection.size());
         for (E e : collection) {
             elementWriter.write(e);
