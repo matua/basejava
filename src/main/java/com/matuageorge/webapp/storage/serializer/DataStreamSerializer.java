@@ -5,6 +5,7 @@ import com.matuageorge.webapp.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,66 +17,42 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContacts();
-            dos.writeInt(contacts.size());
-            contacts.forEach((contactType, description) -> {
-                try {
-                    dos.writeUTF(contactType.name());
-                    dos.writeUTF(description);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            writeCollection(contacts.entrySet(), dos, e -> {
+                dos.writeUTF(e.getKey().name());
+                dos.writeUTF(e.getValue());
             });
+
             Map<SectionType, AbstractSection> sections = r.getSections();
-            dos.writeInt(sections.size());
-            sections.forEach((sectionType, section) -> {
-                try {
-                    dos.writeUTF(sectionType.name());
-                    switch (sectionType) {
-                        case PERSONAL:
-                        case OBJECTIVE:
-                            dos.writeUTF(((TextSection) section).getContent());
-                            break;
-                        case ACHIEVEMENT:
-                        case QUALIFICATIONS:
-                            dos.writeInt(((ListSection) section).getItems().size());
-                            (((ListSection) section).getItems()).forEach((description -> {
-                                try {
-                                    dos.writeUTF(description);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }));
-                            break;
-                        case EXPERIENCE:
-                        case EDUCATION:
-                            //writing organization
-                            int sizeOfOrganizations = ((OrganizationSection) section).getOrganizations().size();
-                            dos.writeInt(sizeOfOrganizations);
-                            ((OrganizationSection) section).getOrganizations().forEach(organization -> {
-                                try {
-                                    dos.writeUTF(organization.getHomePage().getName());
-                                    dos.writeUTF(organization.getHomePage().getUrl());
-                                    //writing positions
-                                    int sizeOfPositions = organization.getPositions().size();
-                                    dos.writeInt(sizeOfPositions);
-                                    organization.getPositions().forEach(position -> {
-                                        try {
-                                            dos.writeUTF(String.valueOf(position.getStartDate()));
-                                            dos.writeUTF(String.valueOf(position.getEndDate()));
-                                            dos.writeUTF(String.valueOf(position.getTitle()));
-                                            dos.writeUTF(String.valueOf(position.getDescription()));
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    });
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+            writeCollection(sections.entrySet(), dos, e -> {
+                SectionType sectionType = e.getKey();
+                AbstractSection section = e.getValue();
+                dos.writeUTF(sectionType.name());
+
+                switch (sectionType) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        dos.writeUTF(((TextSection) section).getContent());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        writeCollection(((ListSection) section).getItems(), dos, dos::writeUTF);
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        //writing organization
+                        writeCollection(((OrganizationSection) section).getOrganizations(), dos, organization -> {
+                            dos.writeUTF(organization.getHomePage().getName());
+                            dos.writeUTF(organization.getHomePage().getUrl());
+                            writeCollection(organization.getPositions(), dos, position -> {
+                                dos.writeUTF(String.valueOf(position.getStartDate()));
+                                dos.writeUTF(String.valueOf(position.getEndDate()));
+                                dos.writeUTF(String.valueOf(position.getTitle()));
+                                dos.writeUTF(String.valueOf(position.getDescription()));
                             });
-                            break;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                        });
+                        break;
+                    default:
+                        throw new IllegalStateException(String.format("Unexpected value: %s", sectionType));
                 }
             });
         }
@@ -173,5 +150,16 @@ public class DataStreamSerializer implements StreamSerializer {
             }
             organizations.add(new Organization(new Link(name, url), positions));
         }
+    }
+
+    private <E> void writeCollection(Collection<E> collection, DataOutputStream ops, DataStreamSerializer.ElementWriter<E> elementWriter) throws IOException {
+        ops.writeInt(collection.size());
+        for (E e : collection) {
+            elementWriter.write(e);
+        }
+    }
+
+    private interface ElementWriter<E> {
+        void write(E e) throws IOException;
     }
 }
