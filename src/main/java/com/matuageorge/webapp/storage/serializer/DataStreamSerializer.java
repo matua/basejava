@@ -64,102 +64,72 @@ public class DataStreamSerializer implements StreamSerializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-            size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                String sectionTypeString = dis.readUTF();
-                SectionType sectionType;
-                AbstractSection section;
-
-                switch (sectionTypeString) {
-                    case "PERSONAL":
-                        sectionType = SectionType.PERSONAL;
-                        section = new TextSection();
-                        ((TextSection) section).setContent(dis.readUTF());
-                        resume.addSection(sectionType, section);
-                        break;
-                    case "OBJECTIVE":
-                        sectionType = SectionType.OBJECTIVE;
-                        section = new TextSection();
-                        ((TextSection) section).setContent(dis.readUTF());
-                        resume.addSection(sectionType, section);
-                        break;
-                    case "ACHIEVEMENT":
-                        sectionType = SectionType.ACHIEVEMENT;
-                        section = new ListSection();
-                        int sizeOfSection = dis.readInt();
-                        List<String> items = new ArrayList<>();
-                        for (int x = 0; x < sizeOfSection; x++) {
-                            items.add(dis.readUTF());
-                        }
-                        ((ListSection) section).setItems(items);
-                        resume.addSection(sectionType, section);
-                        break;
-                    case "QUALIFICATIONS":
-                        sectionType = SectionType.QUALIFICATIONS;
-                        section = new ListSection();
-                        sizeOfSection = dis.readInt();
-                        items = new ArrayList<>();
-                        for (int x = 0; x < sizeOfSection; x++) {
-                            items.add(dis.readUTF());
-                        }
-                        ((ListSection) section).setItems(items);
-                        resume.addSection(sectionType, section);
-                        break;
-                    case "EXPERIENCE":
-                        sectionType = SectionType.EXPERIENCE;
-                        section = new OrganizationSection();
-                        List<Organization> organizations = new ArrayList<>();
-                        ((OrganizationSection) section).setOrganizations(organizations);
-                        int sizeOfOrganizations = dis.readInt();
-                        readOrganizationSection(dis, organizations, sizeOfOrganizations);
-                        resume.addSection(sectionType, section);
-                        break;
-                    case "EDUCATION":
-                        sectionType = SectionType.EDUCATION;
-                        section = new OrganizationSection();
-                        organizations = new ArrayList<>();
-                        ((OrganizationSection) section).setOrganizations(organizations);
-                        sizeOfOrganizations = dis.readInt();
-                        readOrganizationSection(dis, organizations, sizeOfOrganizations);
-                        resume.addSection(sectionType, section);
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + sectionTypeString);
-                }
-            }
+            getEnums(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            getEnums(dis, () -> {
+                SectionType sectionType = SectionType.valueOf(dis.readUTF());
+                resume.addSection(sectionType, readOrganizationSection(dis, sectionType));
+            });
             return resume;
         }
     }
 
-    private void readOrganizationSection(DataInputStream dis, List<Organization> organizations, int sizeOfOrganizations) throws IOException {
-        for (int i = 0; i < sizeOfOrganizations; i++) {
-            String name = dis.readUTF();
-            String url = dis.readUTF();
-            int sizeOfPositions = dis.readInt();
-            List<Organization.Position> positions = new ArrayList<>();
-            for (int j = 0; j < sizeOfPositions; j++) {
-                LocalDate startDate = LocalDate.parse(dis.readUTF());
-                LocalDate endDate = LocalDate.parse(dis.readUTF());
-                String title = dis.readUTF();
-                String description = dis.readUTF();
-                positions.add(new Organization.Position(startDate, endDate, title, description));
-            }
-            organizations.add(new Organization(new Link(name, url), positions));
+    private AbstractSection readOrganizationSection(DataInputStream dis, SectionType sectionType) throws IOException {
+        switch (sectionType) {
+            case PERSONAL:
+            case OBJECTIVE:
+                return new TextSection(dis.readUTF());
+            case ACHIEVEMENT:
+            case QUALIFICATIONS:
+                return new ListSection(readCollection(dis, dis::readUTF));
+            case EXPERIENCE:
+            case EDUCATION:
+                return new OrganizationSection(
+                        readCollection(dis, () -> new Organization(
+                                new Link(dis.readUTF(), dis.readUTF()),
+                                readCollection(dis, () -> new Organization.Position(
+                                        LocalDate.parse(dis.readUTF()),
+                                        LocalDate.parse(dis.readUTF()),
+                                        dis.readUTF(),
+                                        dis.readUTF()
+                                ))
+                        )));
+            default:
+                throw new IllegalStateException("Unexpected value: " + sectionType);
         }
     }
 
-    private <E> void writeCollection(Collection<E> collection, DataOutputStream ops, ElementWriter<E> elementWriter) throws IOException {
-        ops.writeInt(collection.size());
+    private <E> void writeCollection(Collection<E> collection, DataOutputStream dos, ElementWriter<E> elementWriter) throws IOException {
+        dos.writeInt(collection.size());
         for (E e : collection) {
             elementWriter.write(e);
         }
     }
 
+    private <E> List<E> readCollection(DataInputStream dis, ElementReader<E> elementReader) throws IOException {
+        int size = dis.readInt();
+        List<E> collection = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            collection.add(elementReader.read());
+        }
+        return collection;
+    }
+
+    private void getEnums(DataInputStream dis, EnumReader enumReader) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            enumReader.get();
+        }
+    }
+
     private interface ElementWriter<E> {
         void write(E e) throws IOException;
+    }
+
+    private interface ElementReader<E> {
+        E read() throws IOException;
+    }
+
+    private interface EnumReader {
+        void get() throws IOException;
     }
 }
