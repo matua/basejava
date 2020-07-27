@@ -50,20 +50,12 @@ public class DataStreamSerializer implements StreamSerializer {
                         //writing organization
                         writeCollection(((OrganizationSection) section).getOrganizations(), dos, organization -> {
                             dos.writeUTF(organization.getHomePage().getName());
-                            if (organization.getHomePage().getUrl() == null) {
-                                dos.writeUTF("null");
-                            } else {
-                                dos.writeUTF(organization.getHomePage().getUrl());
-                            }
+                            checkIfNull(dos, organization.getHomePage().getUrl(), organization.getHomePage().getUrl());
                             writeCollection(organization.getPositions(), dos, position -> {
                                 dos.writeUTF(String.valueOf(position.getStartDate()));
                                 dos.writeUTF(String.valueOf(position.getEndDate()));
                                 dos.writeUTF(String.valueOf(position.getTitle()));
-                                if (position.getDescription() == null) {
-                                    dos.writeUTF("null");
-                                } else {
-                                    dos.writeUTF(String.valueOf(position.getDescription()));
-                                }
+                                checkIfNull(dos, position.getDescription(), String.valueOf(position.getDescription()));
                             });
                         });
                         break;
@@ -71,6 +63,14 @@ public class DataStreamSerializer implements StreamSerializer {
                         throw new IllegalStateException("Unexpected value: " + sectionType);
                 }
             });
+        }
+    }
+
+    private void checkIfNull(DataOutputStream dos, String url, String url2) throws IOException {
+        if (url == null) {
+            dos.writeUTF("null");
+        } else {
+            dos.writeUTF(url2);
         }
     }
 
