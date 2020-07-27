@@ -9,6 +9,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+interface ElementReader<E> {
+    E read() throws IOException;
+}
+
+interface EnumReader {
+    void get() throws IOException;
+}
+
 public class DataStreamSerializer implements StreamSerializer {
 
     @Override
@@ -42,17 +50,25 @@ public class DataStreamSerializer implements StreamSerializer {
                         //writing organization
                         writeCollection(((OrganizationSection) section).getOrganizations(), dos, organization -> {
                             dos.writeUTF(organization.getHomePage().getName());
-                            dos.writeUTF(organization.getHomePage().getUrl());
+                            if (organization.getHomePage().getUrl() == null) {
+                                dos.writeUTF("null");
+                            } else {
+                                dos.writeUTF(organization.getHomePage().getUrl());
+                            }
                             writeCollection(organization.getPositions(), dos, position -> {
                                 dos.writeUTF(String.valueOf(position.getStartDate()));
                                 dos.writeUTF(String.valueOf(position.getEndDate()));
                                 dos.writeUTF(String.valueOf(position.getTitle()));
-                                dos.writeUTF(String.valueOf(position.getDescription()));
+                                if (position.getDescription() == null) {
+                                    dos.writeUTF("null");
+                                } else {
+                                    dos.writeUTF(String.valueOf(position.getDescription()));
+                                }
                             });
                         });
                         break;
                     default:
-                        throw new IllegalStateException(String.format("Unexpected value: %s", sectionType));
+                        throw new IllegalStateException("Unexpected value: " + sectionType);
                 }
             });
         }
@@ -84,15 +100,18 @@ public class DataStreamSerializer implements StreamSerializer {
             case EXPERIENCE:
             case EDUCATION:
                 return new OrganizationSection(
-                        readCollection(dis, () -> new Organization(
-                                new Link(dis.readUTF(), dis.readUTF()),
-                                readCollection(dis, () -> new Organization.Position(
-                                        LocalDate.parse(dis.readUTF()),
-                                        LocalDate.parse(dis.readUTF()),
-                                        dis.readUTF(),
-                                        dis.readUTF()
-                                ))
-                        )));
+                        readCollection(dis, () -> {
+                            String url;
+                            return new Organization(
+                                    new Link(dis.readUTF(), (url = dis.readUTF()).equals("null") ? null : url),
+                                    readCollection(dis, () -> new Organization.Position(
+                                            LocalDate.parse(dis.readUTF()),
+                                            LocalDate.parse(dis.readUTF()),
+                                            dis.readUTF(),
+                                            dis.readUTF()
+                                    ))
+                            );
+                        }));
             default:
                 throw new IllegalStateException("Unexpected value: " + sectionType);
         }
@@ -123,13 +142,5 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private interface ElementWriter<E> {
         void write(E e) throws IOException;
-    }
-
-    private interface ElementReader<E> {
-        E read() throws IOException;
-    }
-
-    private interface EnumReader {
-        void get() throws IOException;
     }
 }

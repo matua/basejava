@@ -121,6 +121,9 @@ public class ResumeTestData {
                 "http://www.ifmo.ru/",
                 new Organization.Position(1993, Month.SEPTEMBER, 1996, Month.JULY, "Аспирантура (программист С, С++)", null),
                 new Organization.Position(1987, Month.SEPTEMBER, 1993, Month.JULY, "Инженер (программист Fortran, C)", null)));
+        educationOrganizationSectionList.add(new Organization("No Link Organization",
+                null,
+                new Organization.Position(1985, Month.JANUARY, 1985, Month.AUGUST, "Position without description", null)));
 
         sections.put(SectionType.EDUCATION, new OrganizationSection(educationOrganizationSectionList));
     }

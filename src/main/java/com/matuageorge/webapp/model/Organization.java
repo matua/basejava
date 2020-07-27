@@ -87,7 +87,7 @@ public class Organization implements Serializable {
         private String description;
 
         public Position(int startYear, Month startMonth, String title, String description) {
-            this(of(startYear, startMonth), NOW, title, description);
+                this(of(startYear, startMonth), NOW, title, description);
         }
 
         public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
