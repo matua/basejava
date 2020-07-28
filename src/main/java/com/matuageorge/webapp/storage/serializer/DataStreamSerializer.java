@@ -19,6 +19,8 @@ interface EnumReader {
 
 public class DataStreamSerializer implements StreamSerializer {
 
+    private static final String NULL_STRING = "null";
+
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
         try (DataOutputStream dos = new DataOutputStream(os)) {
@@ -50,12 +52,12 @@ public class DataStreamSerializer implements StreamSerializer {
                         //writing organization
                         writeCollection(((OrganizationSection) section).getOrganizations(), dos, organization -> {
                             dos.writeUTF(organization.getHomePage().getName());
-                            checkIfNull(dos, organization.getHomePage().getUrl(), organization.getHomePage().getUrl());
+                            writeNullSafely(dos, organization.getHomePage().getUrl());
                             writeCollection(organization.getPositions(), dos, position -> {
                                 dos.writeUTF(String.valueOf(position.getStartDate()));
                                 dos.writeUTF(String.valueOf(position.getEndDate()));
                                 dos.writeUTF(String.valueOf(position.getTitle()));
-                                checkIfNull(dos, position.getDescription(), String.valueOf(position.getDescription()));
+                                writeNullSafely(dos, position.getDescription());
                             });
                         });
                         break;
@@ -66,12 +68,8 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private void checkIfNull(DataOutputStream dos, String url, String url2) throws IOException {
-        if (url == null) {
-            dos.writeUTF("null");
-        } else {
-            dos.writeUTF(url2);
-        }
+    private void writeNullSafely(DataOutputStream dos, String source) throws IOException {
+        dos.writeUTF(source == null ? NULL_STRING : source);
     }
 
     @Override
