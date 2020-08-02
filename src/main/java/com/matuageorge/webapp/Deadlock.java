@@ -5,10 +5,10 @@ public class Deadlock {
         A a = new A();
         B b = new B();
 
-        Thread thread1 = new Thread(() -> {
+        new Thread(() -> {
             synchronized (a) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -16,12 +16,12 @@ public class Deadlock {
 
                 }
             }
-        });
+        }).start();
 
-        Thread thread2 = new Thread(() -> {
+        new Thread(() -> {
             synchronized (b) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -29,10 +29,7 @@ public class Deadlock {
 
                 }
             }
-        });
-
-        thread1.start();
-        thread2.start();
+        }).start();
     }
 
     static class A {
