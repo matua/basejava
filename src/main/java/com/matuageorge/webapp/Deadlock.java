@@ -2,25 +2,46 @@ package com.matuageorge.webapp;
 
 public class Deadlock {
     public static void main(String[] args) {
-        final Thread[] threads = new Thread[2];
+        A a = new A();
+        B b = new B();
 
-        threads[0] = new Thread(() -> {
-            try {
-                threads[0].join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        Thread thread1 = new Thread(() -> {
+            synchronized (a) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                synchronized (b) {
+
+                }
             }
         });
 
-        threads[1] = new Thread(() -> {
-            try {
-                threads[1].join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        Thread thread2 = new Thread(() -> {
+            synchronized (b) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                synchronized (a) {
+
+                }
             }
         });
 
-        threads[0].start();
-        threads[1].start();
+        thread1.start();
+        thread2.start();
+    }
+
+    static class A {
+    }
+
+    static class B {
     }
 }
+
+
+
+
