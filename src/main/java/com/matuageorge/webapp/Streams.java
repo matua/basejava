@@ -17,24 +17,14 @@ public class Streams {
         return Arrays.stream(values)
                 .distinct()
                 .sorted()
-                .reduce((n1, n2) -> n1 * 10 + n2)
-                .getAsInt();
+                .reduce(0, (n1, n2) -> n1 * 10 + n2);
     }
 
     public static List<Integer> oddOrEven(List<Integer> integers) {
-        int sum = integers.stream().mapToInt(Integer::intValue)
-                .sum();
-
-        if (sum % 2 != 0) {
-            return integers
-                    .stream()
-                    .filter(n -> n % 2 == 0)
-                    .collect(Collectors.toList());
-        } else {
-            return integers
-                    .stream()
-                    .filter(n -> n % 2 != 0)
-                    .collect(Collectors.toList());
-        }
+        return integers
+                .stream()
+                .filter(integers.stream().mapToInt(Integer::intValue)
+                        .sum() % 2 != 0 ? n -> n % 2 == 0 : n -> n % 2 != 0)
+                .collect(Collectors.toList());
     }
 }
