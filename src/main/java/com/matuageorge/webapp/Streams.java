@@ -21,10 +21,11 @@ public class Streams {
     }
 
     public static List<Integer> oddOrEven(List<Integer> integers) {
+        int mod = integers.stream().mapToInt(Integer::intValue)
+                .sum() % 2;
         return integers
                 .stream()
-                .filter(integers.stream().mapToInt(Integer::intValue)
-                        .sum() % 2 != 0 ? n -> n % 2 == 0 : n -> n % 2 != 0)
+                .filter(n -> n % 2 != mod)
                 .collect(Collectors.toList());
     }
 }
