@@ -41,19 +41,19 @@ public class StreamsTest extends TestCase {
         assertEquals(expectedResult3, oddOrEven(Arrays.asList(3, 2, 0, 5, 2, 9, 1, 0)));
 
 
-//        long start = System.currentTimeMillis();
-//        oddOrEven(many);
-//        System.out.format("Many: %d%n", System.currentTimeMillis() - start);
-//
-//
-//        long start1 = System.currentTimeMillis();
-//        oddOrEven(tooMany);
-//        System.out.format("Too many: %d%n", System.currentTimeMillis() - start1);
-//
-//
-//        long start2 = System.currentTimeMillis();
-//        oddOrEven(extremelyMany);
-//        System.out.format("Extremely many: %d%n", System.currentTimeMillis() - start2);
+        long start = System.currentTimeMillis();
+        oddOrEven(many);
+        System.out.format("Many: %d%n", System.currentTimeMillis() - start);
+
+
+        long start1 = System.currentTimeMillis();
+        oddOrEven(tooMany);
+        System.out.format("Too many: %d%n", System.currentTimeMillis() - start1);
+
+
+        long start2 = System.currentTimeMillis();
+        oddOrEven(extremelyMany);
+        System.out.format("Extremely many: %d%n", System.currentTimeMillis() - start2);
 
     }
 }

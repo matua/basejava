@@ -1,5 +1,6 @@
 package com.matuageorge.webapp.storage;
 
+import com.matuageorge.webapp.Config;
 import com.matuageorge.webapp.ResumeTestData;
 import com.matuageorge.webapp.exception.ExistStorageException;
 import com.matuageorge.webapp.exception.NotExistStorageException;
@@ -21,7 +22,7 @@ public abstract class AbstractStorageTest {
     public static final Resume RESUME_3 = new Resume(UUID_3, "Petrov");
     public static final Resume RESUME_NEW_UUID = new Resume(
             "new_uuid", "Smith");
-    protected static final File STORAGE_DIR = new File("/Users/matua/IdeaProjects/basejava/resumes");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
     protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
