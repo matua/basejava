@@ -1,7 +1,5 @@
 package com.matuageorge.webapp.exception;
 
-import java.io.IOException;
-
 public class StorageException extends RuntimeException {
     private final String uuid;
 
@@ -15,11 +13,16 @@ public class StorageException extends RuntimeException {
         this.uuid = uuid;
     }
 
-    public StorageException(String message, IOException e) {
+    public StorageException(String message, Exception e) {
         this(message, null, e);
     }
 
     public StorageException(String message) {
         this(message, null, null);
     }
+
+    public StorageException(Exception e) {
+        this(e.getMessage(), e);
+    }
+
 }
