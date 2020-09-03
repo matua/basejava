@@ -1,5 +1,7 @@
 package com.matuageorge.webapp.sql;
 
+import com.matuageorge.webapp.exception.StorageException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,13 +14,11 @@ public class SqlHelper {
     }
 
     public <S> S processSql(String sql, ExecuterType<S> et) {
-        try {
-            Connection conn = connectionFactory.getConnection();
-            PreparedStatement statement = conn.prepareStatement(sql);
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
             return et.execute(statement);
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            throw new StorageException("SQL request error");
         }
-        return null;
     }
 }

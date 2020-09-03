@@ -22,17 +22,12 @@ public abstract class AbstractStorageTest {
     public static final String UUID_3 = String.valueOf(UUID.randomUUID());
     public static final Resume RESUME_3 = new Resume(UUID_3, "Petrov");
     public static final String NEW_UUID = String.valueOf(UUID.randomUUID());
-    public static final Resume RESUME_NEW_UUID = new Resume(
-            NEW_UUID, "Smith");
+    public static final Resume RESUME_NEW_UUID = new Resume(NEW_UUID, "Smith");
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
     protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
-    }
-
-    protected AbstractStorageTest() {
-        storage = null;
     }
 
     @Before

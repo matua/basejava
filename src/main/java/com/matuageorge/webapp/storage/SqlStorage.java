@@ -48,7 +48,9 @@ public class SqlStorage implements Storage {
                 statement.setString(2, resume.getFullName());
                 statement.execute();
             } catch (SQLException e) {
-                throw new ExistStorageException(e.getSQLState());
+                if (e.getSQLState().equals("23505")) {
+                    throw new ExistStorageException("23505 \tunique_violation Sql error");
+                }
             }
             return null;
         });
@@ -57,15 +59,12 @@ public class SqlStorage implements Storage {
     @Override
     public Resume get(String uuid) {
         return helper.processSql("SELECT * FROM resume r WHERE r.uuid = ?", statement -> {
-            try {
-                statement.setString(1, uuid);
-                try (ResultSet rs = statement.executeQuery()) {
-                    rs.next();
-                    return new Resume(uuid, rs.getString("full_name"));
-                }
-            } catch (Exception e) {
+            statement.setString(1, uuid);
+            ResultSet rs = statement.executeQuery();
+            if (!rs.next()) {
                 throw new NotExistStorageException(uuid);
             }
+            return new Resume(uuid, rs.getString("full_name"));
         });
     }
 
@@ -84,12 +83,9 @@ public class SqlStorage implements Storage {
     public List<Resume> getAllSorted() {
         return helper.processSql("SELECT uuid, full_name FROM resume ORDER BY full_name, uuid ASC", statement -> {
             List<Resume> sortedList = new ArrayList<>();
-            try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    sortedList.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                sortedList.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
             }
             return sortedList;
         });
@@ -99,14 +95,12 @@ public class SqlStorage implements Storage {
     @Override
     public int size() {
         return helper.processSql("SELECT count(*) FROM resume", statement -> {
-            try (ResultSet rs = statement.executeQuery()) {
-                if (!rs.next()) {
-                    throw new StorageException("Sql request error");
-                }
-                return Integer.parseInt(rs.getString("count"));
-            } catch (SQLException e) {
-                throw new StorageException(e);
+            ResultSet rs = statement.executeQuery();
+            if (!rs.next()) {
+                throw new StorageException("Sql request error");
             }
+            return Integer.parseInt(rs.getString("count"));
+
         });
     }
 }
