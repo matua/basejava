@@ -11,22 +11,28 @@ import org.junit.Test;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
     public static final Resume RESUME_1 = ResumeTestData.returnTestResume();
-    public static final String UUID_2 = "uuid_2";
+    public static final String UUID_2 = String.valueOf(UUID.randomUUID());
     public static final Resume RESUME_2 = new Resume(UUID_2, "Matua");
-    public static final String UUID_3 = "uuid_3";
+    public static final String UUID_3 = String.valueOf(UUID.randomUUID());
     public static final Resume RESUME_3 = new Resume(UUID_3, "Petrov");
+    public static final String NEW_UUID = String.valueOf(UUID.randomUUID());
     public static final Resume RESUME_NEW_UUID = new Resume(
-            "new_uuid", "Smith");
+            NEW_UUID, "Smith");
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
     protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
+    }
+
+    protected AbstractStorageTest() {
+        storage = null;
     }
 
     @Before
@@ -47,7 +53,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume newResume = new Resume(UUID_2, "Matua");
         storage.update(newResume);
-        assertEquals(newResume, storage.get("uuid_2"));
+        assertEquals(newResume, storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -58,7 +64,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void save() {
         storage.save(RESUME_NEW_UUID);
-        assertEquals(RESUME_NEW_UUID, storage.get("new_uuid"));
+        assertEquals(RESUME_NEW_UUID, storage.get(NEW_UUID));
         assertEquals(4, storage.size());
     }
 
