@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
-    String tempUUID;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
         sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
