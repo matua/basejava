@@ -13,12 +13,36 @@ public class SqlHelper {
         this.connectionFactory = connectionFactory;
     }
 
-    public <S> S processSql(String sql, ExecuterType<S> et) {
+    public void execute(String sql) {
+        execute(sql, PreparedStatement::execute);
+    }
+
+    public <T> T execute(String sql, SqlExecutor<T> executor) {
         try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
-            return et.execute(statement);
-        } catch (SQLException sqlException) {
-            throw new StorageException("SQL request error");
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            return executor.execute(ps);
+        } catch (SQLException e) {
+            throw ExceptionUtil.convertException(e);
+        }
+    }
+
+    public <T> T transactionalExecute(SqlTransaction<T> executor) {
+        try (Connection conn = connectionFactory.getConnection()) {
+            return transactionCommit(executor, conn);
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
+    }
+
+    private <T> T transactionCommit(SqlTransaction<T> executor, Connection conn) throws SQLException {
+        try {
+            conn.setAutoCommit(false);
+            T res = executor.execute(conn);
+            conn.commit();
+            return res;
+        } catch (SQLException e) {
+            conn.rollback();
+            throw ExceptionUtil.convertException(e);
         }
     }
 }

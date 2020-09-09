@@ -4,6 +4,7 @@ import com.matuageorge.webapp.Config;
 import com.matuageorge.webapp.ResumeTestData;
 import com.matuageorge.webapp.exception.ExistStorageException;
 import com.matuageorge.webapp.exception.NotExistStorageException;
+import com.matuageorge.webapp.model.ContactType;
 import com.matuageorge.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,8 +35,12 @@ public abstract class AbstractStorageTest {
     public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
+        RESUME_2.addContact(ContactType.PHONE, "0797653728");
         storage.save(RESUME_2);
+        RESUME_3.addContact(ContactType.SKYPE, "sdfgh");
         storage.save(RESUME_3);
+        RESUME_NEW_UUID.addContact(ContactType.GITHUB, "sdfghj");
+
     }
 
     @Test
@@ -47,6 +52,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         Resume newResume = new Resume(UUID_2, "Matua");
+        newResume.addContact(ContactType.PHONE, "0797653728");
         storage.update(newResume);
         assertEquals(newResume, storage.get(UUID_2));
     }

@@ -14,7 +14,7 @@ public class ResumeTestData {
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
         Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
-//        masterResume.setContacts(contacts);
+        masterResume.setContacts(contacts);
 //        masterResume.setSections(sections);
 
         contacts.put(ContactType.PHONE, "+7(921) 855-0482");
