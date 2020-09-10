@@ -3,13 +3,16 @@ package com.matuageorge.webapp;
 import com.matuageorge.webapp.model.*;
 
 import java.time.Month;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 public class ResumeTestData {
     static final Resume masterResume;
 
     static {
-        masterResume = new Resume(String.valueOf(UUID.randomUUID()), "Gregory Kislin");
+        masterResume = new Resume("1", "Gregory Kislin");
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
         Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);

@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
     public static final Resume RESUME_1 = ResumeTestData.returnTestResume();
+    public static final String UUID_1 = "1";
     public static final String UUID_2 = String.valueOf(UUID.randomUUID());
     public static final Resume RESUME_2 = new Resume(UUID_2, "Matua");
     public static final String UUID_3 = String.valueOf(UUID.randomUUID());
@@ -51,10 +52,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_2, "Matua");
-        newResume.addContact(ContactType.PHONE, "0797653728");
+        Resume newResume = RESUME_1;
+        newResume.addContact(ContactType.PHONE, "1111111111");
         storage.update(newResume);
-        assertEquals(newResume, storage.get(UUID_2));
+        assertEquals(newResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
