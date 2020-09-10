@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
     public static final Resume RESUME_1 = ResumeTestData.returnTestResume();
-    public static final String UUID_1 = "1";
+    public static final String UUID_1 = RESUME_1.getUuid();
     public static final String UUID_2 = String.valueOf(UUID.randomUUID());
     public static final Resume RESUME_2 = new Resume(UUID_2, "Matua");
     public static final String UUID_3 = String.valueOf(UUID.randomUUID());

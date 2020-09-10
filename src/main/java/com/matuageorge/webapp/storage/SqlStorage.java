@@ -6,10 +6,7 @@ import com.matuageorge.webapp.model.Resume;
 import com.matuageorge.webapp.sql.SqlHelper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -29,7 +26,7 @@ public class SqlStorage implements Storage {
                         "    SELECT * FROM resume r " +
                         " LEFT JOIN contact c " +
                         "        ON r.uuid = c.resume_uuid " +
-                        "     WHERE r.uuid =? ",
+                        "     WHERE r.uuid =? ORDER BY uuid ",
                 ps -> {
                     ps.setString(1, uuid);
                     ResultSet rs = ps.executeQuery();
@@ -96,7 +93,7 @@ public class SqlStorage implements Storage {
         return sqlHelper.execute("" +
                 "   SELECT * FROM resume r\n" +
                 "LEFT JOIN contact c ON r.uuid = c.resume_uuid\n" +
-                "ORDER BY full_name, uuid", ps -> {
+                "ORDER BY r.uuid, r.full_name", ps -> {
             ResultSet rs = ps.executeQuery();
             Map<String, Resume> resumes = new HashMap<>();
             Resume resume = null;
@@ -111,6 +108,7 @@ public class SqlStorage implements Storage {
                 resumes.put(uuid, resume);
             }
             resumes.forEach((k, v) -> result.add(v));
+            Collections.sort(result);
             return result;
         });
     }
