@@ -6,7 +6,10 @@ import com.matuageorge.webapp.model.Resume;
 import com.matuageorge.webapp.sql.SqlHelper;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -89,13 +92,12 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> result = new ArrayList<>();
         return sqlHelper.execute("" +
                 "   SELECT * FROM resume r\n" +
                 "LEFT JOIN contact c ON r.uuid = c.resume_uuid\n" +
-                "ORDER BY r.uuid, r.full_name", ps -> {
+                "ORDER BY r.full_name", ps -> {
             ResultSet rs = ps.executeQuery();
-            Map<String, Resume> resumes = new HashMap<>();
+            Map<String, Resume> resumes = new LinkedHashMap<>();
             Resume resume = null;
             while (rs.next()) {
                 String uuid = rs.getString("uuid");
@@ -107,9 +109,7 @@ public class SqlStorage implements Storage {
                 }
                 resumes.put(uuid, resume);
             }
-            resumes.forEach((k, v) -> result.add(v));
-            Collections.sort(result);
-            return result;
+            return new ArrayList<>(resumes.values());
         });
     }
 
