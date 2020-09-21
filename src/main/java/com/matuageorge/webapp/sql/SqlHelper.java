@@ -23,7 +23,10 @@ public class SqlHelper {
             return executor.execute(ps);
         } catch (SQLException e) {
             throw ExceptionUtil.convertException(e);
+        } catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     public <T> T transactionalExecute(SqlTransaction<T> executor) {

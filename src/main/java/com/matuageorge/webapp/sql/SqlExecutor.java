@@ -5,5 +5,5 @@ import java.sql.SQLException;
 
 @FunctionalInterface
 public interface SqlExecutor<T> {
-    T execute(PreparedStatement st) throws SQLException;
+    T execute(PreparedStatement st) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException;
 }

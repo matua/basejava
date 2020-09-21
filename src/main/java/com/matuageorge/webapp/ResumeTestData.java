@@ -15,7 +15,7 @@ public class ResumeTestData {
         Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
         masterResume.setContacts(contacts);
-//        masterResume.setSections(sections);
+        masterResume.setSections(sections);
 
         contacts.put(ContactType.PHONE, "+7(921) 855-0482");
         contacts.put(ContactType.SKYPE, "grigory.kislin");
@@ -26,7 +26,7 @@ public class ResumeTestData {
         contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
         sections.put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java" +
-                " Web и Enterprise технологиям"));
+                " Web и Enterprise технологиям."));
         sections.put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. " +
                 "Пурист кода и архитектуры."));
 
@@ -106,7 +106,7 @@ public class ResumeTestData {
                         "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis," +
                                 " Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
 
-        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experienceOrganizationSectionList));
+//        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experienceOrganizationSectionList));
 
         List<Organization> educationOrganizationSectionList = new ArrayList<>();
 
@@ -122,7 +122,7 @@ public class ResumeTestData {
                 null,
                 new Organization.Position(1985, Month.JANUARY, 1985, Month.AUGUST, "Position without description", null)));
 
-        sections.put(SectionType.EDUCATION, new OrganizationSection(educationOrganizationSectionList));
+//        sections.put(SectionType.EDUCATION, new OrganizationSection(educationOrganizationSectionList));
     }
 
     public static void main(String[] args) {

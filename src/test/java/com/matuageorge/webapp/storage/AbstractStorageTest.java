@@ -2,6 +2,7 @@ package com.matuageorge.webapp.storage;
 
 import com.matuageorge.webapp.Config;
 import com.matuageorge.webapp.ResumeTestData;
+import com.matuageorge.webapp.ResumeTestData2;
 import com.matuageorge.webapp.exception.ExistStorageException;
 import com.matuageorge.webapp.exception.NotExistStorageException;
 import com.matuageorge.webapp.model.ContactType;
@@ -19,8 +20,9 @@ import static org.junit.Assert.assertEquals;
 public abstract class AbstractStorageTest {
     public static final Resume RESUME_1 = ResumeTestData.returnTestResume();
     public static final String UUID_1 = RESUME_1.getUuid();
-    public static final String UUID_2 = String.valueOf(UUID.randomUUID());
-    public static final Resume RESUME_2 = new Resume(UUID_2, "Matua");
+    public static final Resume RESUME_2 = ResumeTestData2.returnTestResume();
+    public static final String UUID_2 = RESUME_2.getUuid();
+
     public static final String UUID_3 = String.valueOf(UUID.randomUUID());
     public static final Resume RESUME_3 = new Resume(UUID_3, "Petrov");
     public static final String NEW_UUID = String.valueOf(UUID.randomUUID());
