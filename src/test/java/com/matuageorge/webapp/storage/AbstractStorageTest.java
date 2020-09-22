@@ -38,7 +38,6 @@ public abstract class AbstractStorageTest {
     public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
-        RESUME_2.addContact(ContactType.PHONE, "0797653728");
         storage.save(RESUME_2);
         RESUME_3.addContact(ContactType.SKYPE, "sdfgh");
         storage.save(RESUME_3);
@@ -54,10 +53,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = RESUME_1;
+        Resume newResume = RESUME_2;
         newResume.addContact(ContactType.PHONE, "1111111111");
         storage.update(newResume);
-        assertEquals(newResume, storage.get(UUID_1));
+        assertEquals(newResume, storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)

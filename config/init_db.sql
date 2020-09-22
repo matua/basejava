@@ -20,8 +20,7 @@ CREATE TABLE section
     id          SERIAL PRIMARY KEY,
     type        character varying NOT NULL,
     value       character varying NOT NULL,
-    resume_uuid character(36)     NOT NULL,
-    type_class  character varying NOT NULL
+    resume_uuid character(36) NOT NULL
 );
 
 CREATE UNIQUE INDEX section_id_uindex ON section (id int4_ops);
