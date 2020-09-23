@@ -26,59 +26,55 @@ public class SqlStorage implements Storage {
     @Override
     public void clear() {
         sqlHelper.execute("DELETE FROM resume");
-        sqlHelper.execute("DELETE FROM contact");
-        sqlHelper.execute("DELETE FROM section");
     }
 
     @Override
     public Resume get(String uuid) {
-        sqlHelper.execute(("SELECT * FROM resume WHERE uuid = ?"), ps -> {
-            ps.setString(1, uuid);
-            ResultSet rs = ps.executeQuery();
-            if (!rs.next()) {
-                throw new NotExistStorageException(uuid);
+        return sqlHelper.transactionalExecute(conn -> {
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume WHERE uuid = ?")) {
+                ps.setString(1, uuid);
+                ResultSet rs = ps.executeQuery();
+                if (!rs.next()) {
+                    throw new NotExistStorageException(uuid);
+                }
+                resume = new Resume(uuid, rs.getString("full_name"));
             }
-            resume = new Resume(uuid, rs.getString("full_name"));
-            return null;
-        });
 
-
-        sqlHelper.execute(("SELECT * FROM contact WHERE resume_uuid = ?"), ps -> {
-            ps.setString(1, uuid);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                resume.addContact(ContactType.valueOf(rs.getString("type")), rs.getString("value"));
-            }
-            return null;
-        });
-
-        sqlHelper.execute(("SELECT * FROM section WHERE resume_uuid = ?"), ps -> {
-            ps.setString(1, uuid);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String sectionType = rs.getString("type");
-                String value = rs.getString("value");
-                SectionType sectionTypeKey = SectionType.valueOf(sectionType);
-
-                switch (sectionTypeKey) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        resume.addSection(sectionTypeKey, new TextSection(value));
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        resume.addSection(sectionTypeKey, new ListSection(Arrays.asList(value.split(System.lineSeparator()))));
-                        break;
-                    case EXPERIENCE:
-                    case EDUCATION:
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + sectionType);
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact WHERE resume_uuid = ?")) {
+                ps.setString(1, uuid);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    resume.addContact(ContactType.valueOf(rs.getString("type")), rs.getString("value"));
                 }
             }
-            return null;
+
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section WHERE resume_uuid = ?")) {
+                ps.setString(1, uuid);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String sectionType = rs.getString("type");
+                    String value = rs.getString("value");
+                    SectionType sectionTypeKey = SectionType.valueOf(sectionType);
+
+                    switch (sectionTypeKey) {
+                        case PERSONAL:
+                        case OBJECTIVE:
+                            resume.addSection(sectionTypeKey, new TextSection(value));
+                            break;
+                        case ACHIEVEMENT:
+                        case QUALIFICATIONS:
+                            resume.addSection(sectionTypeKey, new ListSection(Arrays.asList(value.split(System.lineSeparator()))));
+                            break;
+                        case EXPERIENCE:
+                        case EDUCATION:
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + sectionType);
+                    }
+                }
+                return resume;
+            }
         });
-        return resume;
     }
 
     @Override
@@ -91,16 +87,14 @@ public class SqlStorage implements Storage {
                     throw new NotExistStorageException(r.getUuid());
                 }
             }
-            sqlHelper.execute("DELETE FROM contact WHERE resume_uuid = ?", ps -> {
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM contact WHERE resume_uuid = ?")) {
                 ps.setString(1, r.getUuid());
                 ps.execute();
-                return null;
-            });
-            sqlHelper.execute("DELETE FROM section WHERE resume_uuid = ?", ps -> {
+            }
+            try (PreparedStatement ps = conn.prepareStatement("DELETE FROM section WHERE resume_uuid = ?")) {
                 ps.setString(1, r.getUuid());
                 ps.execute();
-                return null;
-            });
+            }
             insertContacts(r, conn);
             insertSections(r, conn);
             return null;

@@ -23,7 +23,7 @@ CREATE TABLE section
     id          SERIAL PRIMARY KEY,
     type        character varying NOT NULL,
     value       character varying NOT NULL,
-    resume_uuid character(36)     NOT NULL
+    resume_uuid character(36) NOT NULL REFERENCES resume (uuid) ON DELETE CASCADE
 );
 
 CREATE UNIQUE INDEX section_uuid_type_index
