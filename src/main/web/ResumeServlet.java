@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class resumeServlet extends HttpServlet {
+public class ResumeServlet extends HttpServlet {
+    Storage resumeStorage = Config.get().getSqlStorage();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     }
 
@@ -17,7 +19,7 @@ public class resumeServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
-        Storage resumeStorage = Config.get().getSqlStorage();
+
         List<Resume> resumes = resumeStorage.getAllSorted();
 
         String head = "<head>\n" +
