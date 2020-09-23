@@ -5,10 +5,13 @@
          version="4.0">
     <servlet>
         <servlet-name>resumeServlet</servlet-name>
-        <servlet-class>ResumeServlet</servlet-class>
+        <servlet-class>com.matuageorge.webapp.web.ResumeServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>resumeServlet</servlet-name>
         <url-pattern>/resume</url-pattern>
     </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>resume</welcome-file>
+    </welcome-file-list>
 </web-app>
