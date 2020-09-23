@@ -5,12 +5,12 @@ import com.matuageorge.webapp.ResumeTestData;
 import com.matuageorge.webapp.ResumeTestData2;
 import com.matuageorge.webapp.exception.ExistStorageException;
 import com.matuageorge.webapp.exception.NotExistStorageException;
-import com.matuageorge.webapp.model.ContactType;
-import com.matuageorge.webapp.model.Resume;
+import com.matuageorge.webapp.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -38,10 +38,20 @@ public abstract class AbstractStorageTest {
     public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
+        RESUME_2.addContact(ContactType.PHONE, "0797653728");
         storage.save(RESUME_2);
         RESUME_3.addContact(ContactType.SKYPE, "sdfgh");
+        RESUME_3.addContact(ContactType.GITHUB, "sdfghj");
+        RESUME_3.addSection(SectionType.PERSONAL, new TextSection("asd"));
+        RESUME_3.addSection(SectionType.OBJECTIVE, new TextSection("aswerwrd"));
+        RESUME_3.addSection(SectionType.ACHIEVEMENT, new ListSection(new ArrayList<>(Arrays.asList("asd", "Sdf", "sdf"))));
+        RESUME_3.addSection(SectionType.QUALIFICATIONS, new ListSection(new ArrayList<>(Arrays.asList("asd", "Sdf", "sdf"))));
         storage.save(RESUME_3);
         RESUME_NEW_UUID.addContact(ContactType.GITHUB, "sdfghj");
+        RESUME_NEW_UUID.addSection(SectionType.PERSONAL, new TextSection("asd"));
+        RESUME_NEW_UUID.addSection(SectionType.OBJECTIVE, new TextSection("aswerwrd"));
+        RESUME_NEW_UUID.addSection(SectionType.ACHIEVEMENT, new ListSection(new ArrayList<>(Arrays.asList("asd", "Sdf", "sdf"))));
+        RESUME_NEW_UUID.addSection(SectionType.QUALIFICATIONS, new ListSection(new ArrayList<>(Arrays.asList("asd", "Sdf", "sdf"))));
 
     }
 
@@ -53,10 +63,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = RESUME_2;
+        Resume newResume = RESUME_1;
         newResume.addContact(ContactType.PHONE, "1111111111");
         storage.update(newResume);
-        assertEquals(newResume, storage.get(UUID_2));
+        assertEquals(newResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)

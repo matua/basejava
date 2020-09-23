@@ -10,6 +10,7 @@ import com.matuageorge.webapp.sql.SqlHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class SqlStorage implements Storage {
     @Override
     public void clear() {
         sqlHelper.execute("DELETE FROM resume");
+        sqlHelper.execute("DELETE FROM contact");
+        sqlHelper.execute("DELETE FROM section");
     }
 
     @Override
@@ -49,9 +52,6 @@ public class SqlStorage implements Storage {
             return null;
         });
 
-        List<String> achivementsList = new ArrayList<>();
-        List<String> qualificationsList = new ArrayList<>();
-
         sqlHelper.execute(("SELECT * FROM section WHERE resume_uuid = ?"), ps -> {
             ps.setString(1, uuid);
             ResultSet rs = ps.executeQuery();
@@ -66,10 +66,8 @@ public class SqlStorage implements Storage {
                         resume.addSection(sectionTypeKey, new TextSection(value));
                         break;
                     case ACHIEVEMENT:
-                        achivementsList.add(value);
-                        break;
                     case QUALIFICATIONS:
-                        qualificationsList.add(value);
+                        resume.addSection(sectionTypeKey, new ListSection(Arrays.asList(value.split(System.lineSeparator()))));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
@@ -80,8 +78,6 @@ public class SqlStorage implements Storage {
             }
             return null;
         });
-        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(achivementsList));
-        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(qualificationsList));
         return resume;
     }
 
@@ -162,6 +158,7 @@ public class SqlStorage implements Storage {
     }
 
     private void insertContacts(Resume r, Connection conn) throws SQLException {
+        conn.setAutoCommit(false);
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
             for (Map.Entry<ContactType, String> e : r.getContacts().entrySet()) {
                 ps.setString(1, r.getUuid());
@@ -174,14 +171,14 @@ public class SqlStorage implements Storage {
     }
 
     private void insertSections(Resume r, Connection conn) throws SQLException {
+        conn.setAutoCommit(false);
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO section (type, value, resume_uuid) VALUES (?,?,?)")) {
-
             r.getSections().forEach((sectionType, section) -> {
                 switch (sectionType) {
                     case OBJECTIVE:
                     case PERSONAL:
                         try {
-                            ps.setString(1, String.valueOf(sectionType));
+                            ps.setString(1, sectionType.toString());
                             ps.setString(2, ((TextSection) section).getContent());
                             ps.setString(3, r.getUuid());
                             ps.addBatch();
@@ -191,16 +188,16 @@ public class SqlStorage implements Storage {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        ((ListSection) section).getItems().forEach(item -> {
-                            try {
-                                ps.setString(1, String.valueOf(sectionType));
-                                ps.setString(2, item);
-                                ps.setString(3, r.getUuid());
-                                ps.addBatch();
-                            } catch (SQLException sqlException) {
-                                sqlException.printStackTrace();
-                            }
-                        });
+                        StringBuilder listSectionItems = new StringBuilder();
+                        ((ListSection) section).getItems().forEach(item -> listSectionItems.append(item).append(System.lineSeparator()));
+                        try {
+                            ps.setString(1, sectionType.toString());
+                            ps.setString(2, listSectionItems.toString().trim());
+                            ps.setString(3, r.getUuid());
+                            ps.addBatch();
+                        } catch (SQLException sqlException) {
+                            sqlException.printStackTrace();
+                        }
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
