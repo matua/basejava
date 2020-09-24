@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
-    protected static final File PROPS = new File("/Users/matua/IdeaProjects/basejava/config/resumes.properties");
+    protected static final File PROPS = new File(getHomeDir(), "config/resumes.properties");
     private static final Config INSTANCE = new Config();
     private final Properties properties = new Properties();
     private final File storageDir;
@@ -28,6 +28,15 @@ public class Config {
 
     public static Config get() {
         return INSTANCE;
+    }
+
+    private static File getHomeDir() {
+        String prop = System.getProperty("homeDir");
+        File homeDir = new File(prop == null ? "." : prop);
+        if (!homeDir.isDirectory()) {
+            throw new IllegalStateException(homeDir + " is not a directory");
+        }
+        return homeDir;
     }
 
     public File getStorageDir() {

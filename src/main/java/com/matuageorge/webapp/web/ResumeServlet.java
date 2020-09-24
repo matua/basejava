@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
-    Storage resumeStorage;
+    private Storage resumeStorage;
 
     @Override
     public void init() throws ServletException {
