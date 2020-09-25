@@ -9,9 +9,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>resumeServlet</servlet-name>
-        <url-pattern>/resume</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
-    <welcome-file-list>
-        <welcome-file>resume</welcome-file>
-    </welcome-file-list>
 </web-app>
