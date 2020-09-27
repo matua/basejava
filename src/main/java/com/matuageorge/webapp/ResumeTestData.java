@@ -106,7 +106,7 @@ public class ResumeTestData {
                         "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis," +
                                 " Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
 
-//        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experienceOrganizationSectionList));
+        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experienceOrganizationSectionList));
 
         List<Organization> educationOrganizationSectionList = new ArrayList<>();
 
@@ -122,7 +122,7 @@ public class ResumeTestData {
                 null,
                 new Organization.Position(1985, Month.JANUARY, 1985, Month.AUGUST, "Position without description", null)));
 
-//        sections.put(SectionType.EDUCATION, new OrganizationSection(educationOrganizationSectionList));
+        sections.put(SectionType.EDUCATION, new OrganizationSection(educationOrganizationSectionList));
     }
 
     public static void main(String[] args) {

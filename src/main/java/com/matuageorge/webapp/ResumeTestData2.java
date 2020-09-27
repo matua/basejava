@@ -85,7 +85,7 @@ public class ResumeTestData2 {
                                 "  Spring MVC, Tomcat, WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting" +
                                 "  via ssh tunnels, PL / Python")));
 
-//        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experienceOrganizationSectionList));
+        sections.put(SectionType.EXPERIENCE, new OrganizationSection(experienceOrganizationSectionList));
 
         List<Organization> educationOrganizationSectionList = new ArrayList<>();
 
@@ -97,11 +97,11 @@ public class ResumeTestData2 {
                 "http://www.ifmo.ru/",
                 new Organization.Position(1993, Month.SEPTEMBER, 1996, Month.JULY, "Аспирантура (программист С, С++)", null),
                 new Organization.Position(1987, Month.SEPTEMBER, 1993, Month.JULY, "Инженер (программист Fortran, C)", null)));
-        educationOrganizationSectionList.add(new Organization("No Link Organization",
+        educationOrganizationSectionList.add(new Organization("Organization has no weblinks",
                 null,
                 new Organization.Position(1985, Month.JANUARY, 1985, Month.AUGUST, "Position without description", null)));
 
-//        sections.put(SectionType.EDUCATION, new OrganizationSection(educationOrganizationSectionList));
+        sections.put(SectionType.EDUCATION, new OrganizationSection(educationOrganizationSectionList));
     }
 
     public static void main(String[] args) {
