@@ -1,3 +1,4 @@
+<%@ page import="com.matuageorge.webapp.model.ListSection" %>
 <%@ page import="com.matuageorge.webapp.model.TextSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -60,19 +61,27 @@
     </c:forEach>
 </p>
 <%--Resume Contacts Section--%>
+
 <%--Resume PERSONAL and OBJECTIVE Section--%>
 <c:forEach var="sections" items="${resume.sections}">
-    <c:set var="sectionType" value="${sections.value}"/>
-    <jsp:useBean id="sectionType" type="com.matuageorge.webapp.model.AbstractSection"/>
+    <c:set var="abstractSection" value="${sections.value}"/>
+    <jsp:useBean id="abstractSection" type="com.matuageorge.webapp.model.AbstractSection"/>
     <c:choose>
         <c:when test="${sections.key=='PERSONAL' || sections.key=='OBJECTIVE'}">
             <p><strong>${sections.key.title}</strong></p>
-            <p><%=((TextSection) sectionType).getContent()%>
+            <p><%=((TextSection) abstractSection).getContent()%>
             </p>
         </c:when>
+        <%--Resume ACHIEVEMENT and QUALIFICATIONS Section--%>
+        <c:when test="${sections.key=='ACHIEVEMENT' || sections.key=='QUALIFICATIONS'}">
+            <p><strong>${sections.key.title}</strong></p>
+            <c:forEach var="item" items="<%=((ListSection) abstractSection).getItems()%>">
+                <p>${item}</p>
+            </c:forEach>
+        </c:when>
+        <%--Resume ACHIEVEMENT and QUALIFICATIONS Section--%>
     </c:choose>
 </c:forEach>
-
 <%--Resume PERSONAL and OBJECTIVE Section--%>
 
 
