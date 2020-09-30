@@ -9,6 +9,10 @@
         <webroots>
           <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/java" />
+          <root url="file://$MODULE_DIR$/web" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>
@@ -17,6 +21,8 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/css" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/img" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

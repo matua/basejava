@@ -7,13 +7,24 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .resume {
+            margin: auto;
+            width: 50%;
+            border: 1px solid #000000;
+            padding: 25px;
+        }
+    </style>
     <jsp:useBean id="resume" type="com.matuageorge.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
-
+<div class="resume">
 <%--Resume ID--%>
 <p>Resume ID: ${resume.uuid}</p>
 <%--Resume ID--%>
@@ -113,7 +124,7 @@
         <%--Resume EXPERIENCE and EDUCATION Section--%>
     </c:choose>
 </c:forEach>
-
+</div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
